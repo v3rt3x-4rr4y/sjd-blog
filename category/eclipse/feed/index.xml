@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Eclipse &#8211; Spencer Drayton</title>
+	<atom:link href="./index.html" rel="self" type="application/rss+xml" />
+	<link>./../../../index.html</link>
+	<description>Information Security, Software Engineering</description>
+	<lastBuildDate>Sat, 18 Sep 2021 19:18:13 +0000</lastBuildDate>
+	<language>en-GB</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	
+	<item>
+		<title>Shifting Left On A Shoestring: Azure DevSecOps Pipelines</title>
+		<link>./../../../shift-left-azure-pipelines/index.html</link>
+		
+		<dc:creator><![CDATA[spen440]]></dc:creator>
+		<pubDate>Tue, 14 Sep 2021 09:03:07 +0000</pubDate>
+				<category><![CDATA[Application Security]]></category>
+		<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CI-CD]]></category>
+		<category><![CDATA[Containers]]></category>
+		<category><![CDATA[DAST]]></category>
+		<category><![CDATA[DevSecOps]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[Git]]></category>
+		<category><![CDATA[H2 Database]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[JUnit]]></category>
+		<category><![CDATA[Maven]]></category>
+		<category><![CDATA[OWASP ZAP]]></category>
+		<category><![CDATA[Pipeline]]></category>
+		<category><![CDATA[SAST]]></category>
+		<category><![CDATA[SCA]]></category>
+		<category><![CDATA[ShiftLeft]]></category>
+		<category><![CDATA[Snyk]]></category>
+		<category><![CDATA[Spring Boot]]></category>
+		<category><![CDATA[SQL Injection]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">./../../../index.html?p=504</guid>
+
+					<description><![CDATA[It&#8217;s generally accepted that DevOps is an effective means of delivering higher quality software products at a faster rate, compared to more traditional software development and IT infrastructure management approaches. For some organisations, however, it can be difficult to see a clear, pain-free path out of an environment characterised by waterfall lifecycles and on-premise infrastructure [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>It&#8217;s generally accepted that DevOps is an effective means of delivering higher quality software products at a faster rate, compared to more traditional software development and IT infrastructure management approaches.</p>
+
+
+
+<p>For some organisations, however, it can be difficult to see a clear, pain-free path out of an environment characterised by waterfall lifecycles and on-premise infrastructure which once served them well, but which has now become an encumbrance and an impediment to progress.</p>
+
+
+
+<span id="more-504"></span>
+
+
+<h2 class="simpletoc-title">Table of Contents</h2>
+<ul class="simpletoc-list">
+<li><a href="#background">Background</a>
+
+</li>
+<li><a href="#shifting-left">Shifting Left</a>
+
+</li>
+<li><a href="#pentesting-no-silver-bullet">Pentesting &#8211; No Silver Bullet</a>
+
+</li>
+<li><a href="#objectives">Objectives</a>
+
+
+<ul><li>
+<a href="#viability">Viability</a>
+
+</li>
+</ul>
+<li><a href="#approach">Approach</a>
+
+
+<ul><li>
+<a href="#azure-devops">Azure DevOps</a>
+
+</li>
+<li><a href="#schematic">Schematic</a>
+
+</li>
+<li><a href="#pipeline-components">Pipeline Components</a>
+
+
+<ul><li>
+<a href="#development">Development</a>
+
+</li>
+<li><a href="#source-code-configuration">Source Code Configuration</a>
+
+</li>
+<li><a href="#third-party-components">Third Party Components</a>
+
+</li>
+<li><a href="#build-pipeline">Build Pipeline</a>
+
+
+<ul><li>
+<a href="#commit-hook">Commit Hook</a>
+
+</li>
+<li><a href="#build-system-maven">Build System (Maven)</a>
+
+</li>
+<li><a href="#unit-test">Unit Test</a>
+
+</li>
+<li><a href="#containerisation">Containerisation</a>
+
+</li>
+<li><a href="#static-application-security-testing-sast">Static Application Security Testing (SAST)</a>
+
+</li>
+<li><a href="#software-composition-analysis-sca">Software Composition Analysis (SCA)</a>
+
+</li>
+</ul>
+<li><a href="#container-registry">Container Registry</a>
+
+</li>
+<li><a href="#release-pipeline">Release Pipeline</a>
+
+
+<ul><li>
+<a href="#triggering-a-release">Triggering a release</a>
+
+</li>
+<li><a href="#dynamic-application-security-testing-dast">Dynamic Application Security Testing (DAST)</a>
+
+</li>
+<li><a href="#deployment">Deployment</a>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<li><a href="#happy-path-testing">Happy Path Testing</a>
+
+
+<ul><li>
+<a href="#unit-test-results">Unit Test Results</a>
+
+</li>
+<li><a href="#sast-security-testing-results">SAST Security Testing Results</a>
+
+</li>
+<li><a href="#sca-security-testing-results">SCA Security Testing Results</a>
+
+</li>
+<li><a href="#dast-security-testing-results">DAST Security Testing Results</a>
+
+</li>
+<li><a href="#live-api-testing">Live API Testing</a>
+
+</li>
+</ul>
+<li><a href="#introducing-an-sql-injection-vulnerability">Introducing an SQL Injection Vulnerability</a>
+
+</li>
+<li><a href="#retesting">Re-Testing</a>
+
+
+<ul><li>
+<a href="#updated-live-api-testing-results">Updated &#8211; Live API Testing Results</a>
+
+</li>
+<li><a href="#updated-sast-security-testing-results">Updated &#8211; SAST Security Testing Results</a>
+
+</li>
+<li><a href="#updated-dast-security-testing-results">Updated &#8211; DAST Security Testing Results</a>
+
+</li>
+</ul>
+<li><a href="#conclusions">Conclusions</a>
+</li></ul>
+
+<h2 class="wp-block-heading" id="background">Background</h2>
+
+
+<p>The underlying belief may be that the cost and upheaval incurred by a migration to DevOps outweighs any potential benefits to such a degree, that &#8220;carrying on as before&#8221; seems to be better option.</p>
+
+
+
+<p>The problem becomes critical, however, when the issue of <a href="https://www.csoonline.com/article/3315700/what-is-application-security-a-process-and-tools-for-securing-software.html"><span class="has-inline-color has-luminous-vivid-amber-color">software application security</span></a> is brought into the mix. Bad actors are becoming increasingly resourceful in finding new ways to read, steal, alter and destroy information of value, and although there are are multitude of ways that an organisations defences can be breached, software application flaws introduced by bad coding practices can increase the risk of an attack leading to a successful security breach.</p>
+
+
+
+<p>As a result has become incumbent upon those of us who develop software to adopt practices which help, detect and correct such vulnerabilities before they reach production, and ideally prevent occurring in the first place.</p>
+
+
+<h2 class="wp-block-heading" id="shifting-left">Shifting Left</h2>
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/09/jl.png"><img fetchpriority="high" decoding="async" width="476" height="270" src="./../../../wp-content/uploads/2021/09/jl.png" alt="" class="wp-image-525" srcset="./../../../wp-content/uploads/2021/09/jl.png 476w, ./../../../wp-content/uploads/2021/09/jl-300x170.png 300w, ./../../../wp-content/uploads/2021/09/jl-210x119.png 210w" sizes="(max-width: 476px) 100vw, 476px" /></a></figure></div>
+
+
+
+<p>The danger is that security testing is viewed as a bolt-on after-thought, conducted outside of the main development process by staff with limited understanding of the software development process itself. Under these circumstances its easy to see how security and development teams might end up working antagonistically &#8211; not only failing to effectively manage security risk, but potentially even slowing down the delivery of story point functionality, reducing overall product quality and increasing costs.</p>
+
+
+
+<p>The evolution of DevOps into its security-conscious descendent <a href="https://www.devsecops.org/"><span class="has-inline-color has-luminous-vivid-amber-color">DevSecOps</span></a> is an attempt to combat this. The result is in an approach which allows security requirements to be afforded the same level of importance as functional and other non-functional requirements (eg scalability, safety, portability, etc) by ensuring that security testing is firmly embedded as integral part of the CI/CD pipeline.</p>
+
+
+
+<p>The UK Government&#8217;s <span class="has-inline-color has-white-color">National Cyber Security Centre</span><span class="has-inline-color has-luminous-vivid-amber-color"> <a href="https://www.ncsc.gov.uk/">(</a></span><a href="https://www.ncsc.gov.uk/"><span class="has-inline-color has-luminous-vivid-amber-color">NCSC</span></a><span class="has-inline-color has-luminous-vivid-amber-color"><a href="https://www.ncsc.gov.uk/">)</a></span> advocates a <a href="https://www.ncsc.gov.uk/collection/developers-collection/principles/secure-development-is-everyones-concern"><span class="has-inline-color has-luminous-vivid-amber-color">security focused approach</span> </a>to software development which aligns with the principles promoted by DevSecOps. This support is echoed in the whitepaper &#8220;<a href="https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04232020.pdf"><span class="has-inline-color has-luminous-vivid-amber-color">Mitigating the Risk of Software Vulnerabilities by Adopting a Secure Software Development Framework (SSDF)</span></a>&#8221; published by the <span class="has-inline-color has-white-color">US National Institute of Standards and Technology</span> (<a href="https://www.nist.gov/"><span class="has-inline-color has-luminous-vivid-amber-color">NIST</span></a>), identifies a number of key DevSecOps practices which organisations are advised to adopt to ensure security is embedded early in entire development lifecycle:</p>
+
+
+
+<blockquote class="wp-block-quote has-text-align-left is-layout-flow wp-block-quote-is-layout-flow"><p>&#8211; Ensure that <span class="has-inline-color has-vivid-red-color">security requirements</span> for software development are known at all times so that they can be taken into account <span class="has-inline-color has-vivid-red-color">throughout the SDLC</span>.</p><p>&#8211; Identify and evaluate the applicable security requirements for the software’s design; determine what security risks the software is likely to face during production operation and <span class="has-inline-color has-vivid-red-color">how those risks should be mitigated by the software’s design</span>.</p><p>&#8211; Ensure that the software resulting from the SDLC meets the organization’s expectations by defining criteria for <span class="has-inline-color has-vivid-red-color">checking the software’s security during development</span>.</p></blockquote>
+
+
+<h2 class="wp-block-heading" id="pentesting-no-silver-bullet">Pentesting &#8211; No Silver Bullet</h2>
+
+
+<p>It&#8217;s not an uncommon approach for organisations who have yet to embrace CI/CD to commission a penetration test when development of a system is complete (sometimes even after it is been deployed to production). Although post-development penetration testing is probably better than no security testing at all, there are a number of reasons why this approach might be considered flawed:</p>
+
+
+
+<ul class="wp-block-list"><li>Because penetration tests are typically conducted just before (or sometimes after) the system goes into production, the cost of fixing any issues found is likely to be considerably higher compared to fixing them earlier in the development cycle.</li><li>Test results represent a single snapshot of the system&#8217;s security status in time &#8211; a vulnerability introduced the day after the test is conducted could be entrenched for months before the next planned test.</li><li>Tests are often conducted by security consultants more familiar with IT infrastructure than software development, making the process of translating test findings into actionable remediation advice for developers problematic.</li><li>Tests can easily be mis-scoped if the development team doesn&#8217;t have a clear idea of what information they need from the test. It&#8217;s all too easy to end up with a test report which enumerates all the security misconfigurations within the host system&#8217;s infrastructure, but reveals very little about the types of vulnerabilities found through application security testing, such as broken authentication mechanisms, command or query injection, or unsafe object deserialisation.</li></ul>
+
+
+
+<p>Rather than discounting the value of penetration testing however, perhaps it makes sense to consider repurposing it, to serve more as a means of verifying the efficacy of a development process which actively seeks to &#8220;<a href="https://www.devsecops.org/blog/2016/5/20/-security"><span class="has-inline-color has-luminous-vivid-amber-color">shift security left</span></a>&#8220;.</p>
+
+
+
+<p class="has-text-align-left">To be truly effective however, this may mean a shift to a more black-box focused testing approach. Pen pen testers with access to development artefacts such source code, design documents, architecture analysis results, misuse and abuse cases, code review results and deployment configurations, coupled with an &#8220;attacker mindset&#8221; are more likely to identify the obscure edge case vulnerabilities that persistent, stealthy threat actors are becoming increasingly adept at finding and exploiting. </p>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+<h2 class="wp-block-heading" id="objectives">Objectives</h2>
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="./../../../wp-content/uploads/2021/09/cloudpipel-1.png"><img decoding="async" src="./../../../wp-content/uploads/2021/09/cloudpipel-1-1024x565.png" alt="" class="wp-image-530" width="512" height="283" srcset="./../../../wp-content/uploads/2021/09/cloudpipel-1-1024x565.png 1024w, ./../../../wp-content/uploads/2021/09/cloudpipel-1-300x165.png 300w, ./../../../wp-content/uploads/2021/09/cloudpipel-1-768x424.png 768w, ./../../../wp-content/uploads/2021/09/cloudpipel-1-210x116.png 210w, ./../../../wp-content/uploads/2021/09/cloudpipel-1.png 1106w" sizes="(max-width: 512px) 100vw, 512px" /></a></figure></div>
+
+
+
+<p>The objective of the exercise detailed in this post then, is to attempt to answer the question: <span class="has-inline-color has-white-color"><em>How easy is it to stand up a proof of concept demonstrator, to help interested but hesitant stake holders understand why and how adopting a cloud native, continuous integration/continuous delivery DevSecOps pipeline is a viable approach to reducing risk</em></span><em><span class="has-inline-color has-vivid-red-color">*</span></em><span class="has-inline-color has-white-color"><em> and improving quality, without negatively impacting speed of delivery ?</em></span></p>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<p><span class="has-inline-color has-vivid-red-color">*</span><em>How do we define risk ?</em></p>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<ul class="wp-block-list"><li><em>IT organisations deal with&nbsp;<span class="has-inline-color has-white-color">information&nbsp;</span>– i.e. facts and figures which have meaning in a specific context.</em></li><li><em><span class="has-inline-color has-white-color">Information</span>&nbsp;within an organisation is typically viewed as a collection of&nbsp;<span class="has-inline-color has-white-color">assets</span>, where each asset has a&nbsp;<span class="has-inline-color has-white-color">value&nbsp;</span>which reflects its importance to the organisation.</em></li><li><em>This&nbsp;<span class="has-inline-color has-white-color">value&nbsp;</span>can be derived from many factors, but is generally proportional to the seriousness of sustaining a degradation to one of three properties used to express the security state an information asset, namely:&nbsp;<span class="has-inline-color has-white-color">Confidentiality,&nbsp;Integrity&nbsp;and&nbsp;Availability</span>&nbsp;(or “<a href="https://www.iso.org/obp/ui/#iso:std:iso-iec:27000:ed-5:v1:en:term:3.28"><span class="has-inline-color has-luminous-vivid-amber-color">CIA</span></a>“).</em></li><li><em>These properties can be degraded through a variety of possible scenarios involving potential <span class="has-inline-color has-white-color">threats</span>, each of which needs to be assessed to estimate the <span class="has-inline-color has-white-color">likelihood </span>of it occurring, via a processes such <a href="https://www.devseccon.com/threat-modeling-in-2021/"><span class="has-inline-color has-luminous-vivid-amber-color">threat modelling</span></a>.</em></li><li><em>Information systems can contain flaws, or&nbsp;<span class="has-inline-color has-white-color">vulnerabilities</span>, which can adversely affect the&nbsp;<span class="has-inline-color has-white-color">CIA&nbsp;</span>of the information&nbsp;assets&nbsp;it manipulates.</em></li><li><em>The severity of <span class="has-inline-color has-white-color">risk </span>is assessed by considering how <span class="has-inline-color has-white-color">likely </span>it is that a <span class="has-inline-color has-white-color">threat </span>will <span class="has-inline-color has-white-color">exploit </span>a <span class="has-inline-color has-white-color">vulnerability </span>and what the <span class="has-inline-color has-white-color">impact </span>could be given the <span class="has-inline-color has-white-color">value </span>of affected information <span class="has-inline-color has-white-color">asset</span>.</em></li><li><em>Vulnerabilities&nbsp;present in software systems expose the organisation to&nbsp;risk&nbsp;through a variety of impact types, including:</em><ul><li><em><span class="has-inline-color has-white-color">Financial loss</span></em></li><li><em><span class="has-inline-color has-white-color">Operational capacity reduction</span></em></li><li><em><span class="has-inline-color has-white-color">Legal or regulatory penalties</span></em></li><li><em><span class="has-inline-color has-white-color">Reputational damage</span></em></li><li><em><span class="has-inline-color has-white-color">Harm or damage to persons and property.</span></em></li></ul></li></ul>
+
+
+
+<p><em>For more information on the relationship between software vulnerabilities and business risk, please have a read of my post: &#8220;<a href="./../../../insecure-deserialisation/index.html"><span class="has-inline-color has-luminous-vivid-amber-color">Software Vulnerabilities and Business Risk</span></a>&#8221; which outlines the concept with a case study using Java insecure deserialisation as an example.</em></p>
+</div></div>
+</div></div>
+
+
+<h3 class="wp-block-heading" id="viability">Viability</h3>
+
+
+<p>Approaching this from the point of view of stakeholders, and queries and concerns that might be expressed when considering a shift to a DevSecOps approach:</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Bottleneck</span></strong>: will it slow the development process process down ?<br><strong><span class="has-inline-color has-white-color">Feedback</span></strong>: will it allow developers to find out about security issues soon after they&#8217;ve been introduced, when remediation is comparatively easier and cheaper ?<br><strong><span class="has-inline-color has-white-color">Constructive</span>:</strong> will it provide information that can be understood by a development audience so it can be acted upon ?<br><strong><span class="has-inline-color has-white-color">Overhead</span></strong>: how much additional workload will it cause for the development team ?<br><strong><span class="has-inline-color has-white-color">Scalable</span></strong>: how easy is to change, adapt, grow / shrink ?<br><strong><span class="has-inline-color has-white-color">Experimentation</span></strong>: learning leads to innovation: developers are problem solvers &#8211; does it give developers the freedom try out different ways to fix security bugs, quickly, in an isolated environment without fear of breaking the release process, learning from mistakes without fear of retribution ?<br><strong><span class="has-inline-color has-white-color">Costs</span></strong>: What are the initial costs ? What does the ongoing spend profile looks like &#8211; is it easy to quantify and predict ?<br><strong><span class="has-inline-color has-white-color">Metrics</span></strong>: how easy is it to assess and report on the level of business risk exposure from the results generated from security testing in the pipeline ?<br><strong><span class="has-inline-color has-white-color">ROI</span></strong>: How can the organisation&#8217;s return on investment be measured using the results generated ?</p>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+<h2 class="wp-block-heading" id="approach">Approach</h2>
+
+<h3 class="wp-block-heading" id="azure-devops">Azure DevOps</h3>
+
+
+<p><strong><em>Note:</em></strong> <em>The decision to use <a href="https://azure.microsoft.com/en-gb/"><span class="has-inline-color has-luminous-vivid-amber-color">Microsoft Azure</span></a> as the cloud platform for this exercise is purely arbitrary. There is no intention to present an evaluation of/comparison between the services offered by each of the various cloud providers. The assumption is that it would be relatively straightforward to port this architecture to <a href="https://aws.amazon.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Amazon Web Services</span></a>, <a href="https://cloud.google.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Google Cloud Platform</span></a> or some other provider.</em></p>
+
+
+<h3 class="wp-block-heading" id="schematic">Schematic</h3>
+
+
+<p>The following image provides a pictorial overview of the overall process, and illustrates the separation between the build and release pipelines. In a production environment, it&#8217;s likely that there would be multiple development, test and live deployments but to keep things simple we have just a single live deployment here. </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><a href="./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6.png"><img decoding="async" width="1024" height="724" src="./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6-1024x724.png" alt="" class="wp-image-546" srcset="./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6-1024x724.png 1024w, ./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6-300x212.png 300w, ./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6-768x543.png 768w, ./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6-210x148.png 210w, ./../../../wp-content/uploads/2021/09/VW-PIPEL-001-6.png 1123w" sizes="(max-width: 980px) 100vw, 980px" /></a></figure></div>
+
+
+
+<p>The <a href="https://azure.microsoft.com/en-us/services/devops/"><span class="has-inline-color has-luminous-vivid-amber-color">Azure DevOps</span></a> web interface provides a dashboard which makes it easy to switch between views of the build and release pipelines, code repositories and build artefacts. There&#8217;s also support for Scrum style development in the form of sprint issue boards, backlogs, burndown and velocity charts, etc.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-001-768x479.jpg" alt="" class="wp-image-593" width="576" height="359" srcset="./../../../wp-content/uploads/2021/09/az-pl-001-768x479.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-001-300x187.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-001-1024x639.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-001-210x131.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-001.jpg 1082w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+
+<p>Each stage of the pipeline is outlined below.</p>
+
+
+<h3 class="wp-block-heading" id="pipeline-components">Pipeline Components</h3>
+
+<h4 class="wp-block-heading" id="development">Development</h4>
+
+
+<p>I put together a simple Java <a href="https://spring.io/guides/gs/spring-boot/"><span class="has-inline-color has-luminous-vivid-amber-color">Spring Boot MVC</span></a> web application to serve as the target for this exercise. It contains a single &#8220;<code><em>User</em></code>&#8221; data entity type  stored in an in-memory <a href="https://www.h2database.com/html/main.html"><span class="has-inline-color has-luminous-vivid-amber-color">H2 database</span></a> and provides create, read, update and delete (CRUD) functionality via an HTTP JSON API.</p>
+
+
+
+<p>The project includes a suite of <a href="https://junit.org/junit5/"><span class="has-inline-color has-luminous-vivid-amber-color">JUnit</span></a> tests, is built using the <a href="https://maven.apache.org/"><span class="has-inline-color has-luminous-vivid-amber-color">Apache Maven</span></a> build system, and is packaged into a <a href="https://www.docker.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Docker</span></a> image for ease of deployment.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-001.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-001-768x505.png" alt="" class="wp-image-565" width="576" height="379" srcset="./../../../wp-content/uploads/2021/09/vulnweb-001-768x505.png 768w, ./../../../wp-content/uploads/2021/09/vulnweb-001-300x197.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-001-1024x674.png 1024w, ./../../../wp-content/uploads/2021/09/vulnweb-001-210x138.png 210w, ./../../../wp-content/uploads/2021/09/vulnweb-001.png 1214w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Apache Maven is used to build the application and manage dependencies</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-009.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-009-768x449.png" alt="" class="wp-image-561" width="576" height="337" srcset="./../../../wp-content/uploads/2021/09/vulnweb-009-768x449.png 768w, ./../../../wp-content/uploads/2021/09/vulnweb-009-300x175.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-009-210x123.png 210w, ./../../../wp-content/uploads/2021/09/vulnweb-009.png 998w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>For simplicity, the application contains just a single entity type</em></figcaption></figure></div>
+
+
+
+<p>To keep things simple, the database is created at start up and populated with a initial set of test data:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-003.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-003-768x358.png" alt="" class="wp-image-555" width="576" height="269" srcset="./../../../wp-content/uploads/2021/09/vulnweb-003-768x358.png 768w, ./../../../wp-content/uploads/2021/09/vulnweb-003-300x140.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-003-210x98.png 210w, ./../../../wp-content/uploads/2021/09/vulnweb-003.png 890w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Initial dataset</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-002.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-002.png" alt="" class="wp-image-554" width="557" height="303" srcset="./../../../wp-content/uploads/2021/09/vulnweb-002.png 742w, ./../../../wp-content/uploads/2021/09/vulnweb-002-300x163.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-002-210x114.png 210w" sizes="(max-width: 557px) 100vw, 557px" /></a><figcaption><em>An H2 database is created at start up</em></figcaption></figure></div>
+
+
+
+<p>The Controller class maps API endpoints to the CRUD methods using standard Spring decorators:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-013.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-013-768x661.png" alt="" class="wp-image-618" width="576" height="496" srcset="./../../../wp-content/uploads/2021/09/vulnweb-013-768x661.png 768w, ./../../../wp-content/uploads/2021/09/vulnweb-013-300x258.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-013-210x181.png 210w, ./../../../wp-content/uploads/2021/09/vulnweb-013.png 889w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Spring MVC maps API endpoint mappings</em></figcaption></figure></div>
+
+
+
+<p>With the application running locally, the API can tested via a web browser:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-016.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-016.png" alt="" class="wp-image-627" width="485" height="167" srcset="./../../../wp-content/uploads/2021/09/vulnweb-016.png 647w, ./../../../wp-content/uploads/2021/09/vulnweb-016-300x103.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-016-210x72.png 210w" sizes="(max-width: 485px) 100vw, 485px" /></a><figcaption><em>Local API testing &#8211; query by ID</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-015.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-015.png" alt="" class="wp-image-628" width="482" height="174" srcset="./../../../wp-content/uploads/2021/09/vulnweb-015.png 642w, ./../../../wp-content/uploads/2021/09/vulnweb-015-300x108.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-015-210x76.png 210w" sizes="(max-width: 482px) 100vw, 482px" /></a><figcaption><em> Local API testing &#8211; query by username</em></figcaption></figure></div>
+
+
+<h4 class="wp-block-heading" id="source-code-configuration">Source Code Configuration</h4>
+
+
+<p>The project is configured in a <a href="https://git-scm.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Git</span></a> repository, with the remote located on <a href="https://github.com/"><span class="has-inline-color has-luminous-vivid-amber-color">GitHub</span></a>:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-repo-002.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-repo-002-768x345.jpg" alt="" class="wp-image-591" width="576" height="259" srcset="./../../../wp-content/uploads/2021/09/az-pl-repo-002-768x345.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-repo-002-300x135.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-repo-002-1024x460.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-repo-002-210x94.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-repo-002.jpg 1408w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>GitHub repo</em></figcaption></figure></div>
+
+
+
+<p>To import the source code into the Azure environment, I forked the GitHub repository to an Azure Git Repo:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-repo-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-repo-001-768x341.jpg" alt="" class="wp-image-592" width="576" height="256" srcset="./../../../wp-content/uploads/2021/09/az-pl-repo-001-768x341.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-repo-001-300x133.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-repo-001-1024x454.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-repo-001-210x93.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-repo-001.jpg 1301w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Azure Git Repo</em></figcaption></figure></div>
+
+
+<h4 class="wp-block-heading" id="third-party-components">Third Party Components</h4>
+
+
+<p>When the application docker image is built, a number of required dependencies are incorporated, including <a href="https://openjdk.java.net/"><span class="has-inline-color has-luminous-vivid-amber-color">Java OpenJDK</span></a>, and several libraries to support secure network communications, certificate management, source code management, file compression, etc on the target operating system.</p>
+
+
+
+<p>The Maven build process parses the application&#8217;s Project Object Model (<a href="https://maven.apache.org/guides/introduction/introduction-to-the-pom.html"><span class="has-inline-color has-luminous-vivid-amber-color">POM</span></a>) file which defines the dependencies needed to build the application as a docker container.</p>
+
+
+<h4 class="wp-block-heading" id="build-pipeline">Build Pipeline</h4>
+
+
+<p>The Azure build pipeline is defined using a <a href="https://yaml.org/"><span class="has-inline-color has-luminous-vivid-amber-color">YAML</span></a> configuration file, which is configured in the project source code repository along with source for the project itself. The YAML file contains a sequence of jobs and tasks, defining the actions which are performed at each stage of the pipeline.</p>
+
+
+
+<p>Azure DevOps provides support for generating the YAML file visually or manually &#8211; to try out both, I used the manual method for the build pipeline and the visual method for the release pipeline:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-yaml-main-1.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-yaml-main-1.jpg" alt="" class="wp-image-604" width="528" height="303" srcset="./../../../wp-content/uploads/2021/09/az-pl-yaml-main-1.jpg 704w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-main-1-300x172.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-main-1-210x121.jpg 210w" sizes="(max-width: 528px) 100vw, 528px" /></a><figcaption><em>Build pipeline YAML fragment &#8211; global variables</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="commit-hook">Commit Hook</h5>
+
+
+<p>The Build Pipeline is automatically triggered when a change to a configured source file is pushed to the Git Repo:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pipl-commithook.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pipl-commithook.png" alt="" class="wp-image-644" width="572" height="410" srcset="./../../../wp-content/uploads/2021/09/az-pipl-commithook.png 763w, ./../../../wp-content/uploads/2021/09/az-pipl-commithook-300x215.png 300w, ./../../../wp-content/uploads/2021/09/az-pipl-commithook-210x150.png 210w" sizes="(max-width: 572px) 100vw, 572px" /></a><figcaption><em>Build run details included the hash of the commit which triggered it</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001-768x356.jpg" alt="" class="wp-image-586" width="576" height="267" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001-768x356.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001-300x139.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001-1024x475.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001-210x97.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-inprog-001.jpg 1351w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Build pipeline mid execution</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="build-system-maven">Build System (Maven)</h5>
+
+
+<p>The project utilises Apache Maven to manage the application&#8217;s build process and its dependencies. The POM file lists the applications dependencies &#8211; this is executed by a dedicated task in the Azure Build pipeline:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-yaml-maven.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-yaml-maven.jpg" alt="" class="wp-image-602" width="508" height="320" srcset="./../../../wp-content/uploads/2021/09/az-pl-yaml-maven.jpg 570w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-maven-300x189.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-maven-210x132.jpg 210w" sizes="(max-width: 508px) 100vw, 508px" /></a><figcaption><em> Build pipeline YAML fragment &#8211; Maven task</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="unit-test">Unit Test</h5>
+
+
+<p>The application includes a suite of JUnit unit tests, which the Maven build process executes when the build pipeline runs:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001-768x541.jpg" alt="" class="wp-image-597" width="576" height="406" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001-768x541.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001-300x211.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001-1024x722.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001-210x148.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-mavenunittest-001.jpg 1230w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>JUnit tests</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="containerisation">Containerisation</h5>
+
+
+<p>The application POM file references a plugin which handles the packaging of the the application into a docker container, and which is again also executed by the Maven process when the build pipeline runs:  </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001-768x636.jpg" alt="" class="wp-image-598" width="576" height="477" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001-768x636.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001-300x248.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001-210x174.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-maven_docker-001.jpg 878w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>POM file docker container build plugin</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="static-application-security-testing-sast">Static Application Security Testing (SAST)</h5>
+
+
+<p>Static Application Security Testing (SAST) is performed using a pre-packaged Azure Task, which exposes functionality provided by <a href="https://slscan.io/en/latest/integrations/azure-devops-pipeline/">&#8220;<span class="has-inline-color has-luminous-vivid-amber-color">SAST-Scan</span></a>&#8221; &#8211; a free, open-source source code scanner, maintained by <a href="https://www.shiftleft.io/"><span class="has-inline-color has-luminous-vivid-amber-color">ShiftLeft Inc.</span></a> This utility is capable of analysing Java class files for evidence of known software  security weaknesses, including those classified within the <a href="https://owasp.org/www-project-top-ten/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP Top Ten</span></a> and <a href="https://cwe.mitre.org/data/definitions/1337.html"><span class="has-inline-color has-luminous-vivid-amber-color">CWE Top 25</span></a>.</p>
+
+
+
+<p>The scanner is packaged as a docker image; the pipeline task downloads the latest version as a container runs it:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-yaml-sast.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-yaml-sast-768x264.jpg" alt="" class="wp-image-601" width="576" height="198" srcset="./../../../wp-content/uploads/2021/09/az-pl-yaml-sast-768x264.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sast-300x103.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sast-1024x352.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sast-210x72.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sast.jpg 1029w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em> Build pipeline YAML fragment &#8211; perform SAST scan</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="software-composition-analysis-sca">Software Composition Analysis (SCA)</h5>
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<p>The inclusion of dependencies such as libraries, plugins, packages etc from external sources is increasingly recognised as a significant source of security issues. For example, if the component is unmaintained it may contain unpatched vulnerabilities. If the component is imported via an uncontrolled, unofficial or insecure route, a m<span style="font-size: revert;">odified, malicious version of the component</span> may be unwittingly included. Even if a legitimate route is used, failure to verify the integrity of the component may lead to so-called supply chain attacks if the component supplier has been compromised.</p>
+
+
+
+<p>The issue is of sufficient severity that it is referenced by both the OWASP Top 10 and the CWE Top 25 application security weakness lists.</p>
+</div></div>
+</div></div>
+
+
+
+<p>Software Composition Analysis (SCA) is the name given to the process of examining the third party elements which make up a complete software system for the presence of components which are known to contain published vulnerabilities.</p>
+
+
+
+<p>The build pipeline is this example performs this operation using a pre-packaged Azure Task, which exposes functionality provided by <a href="https://snyk.io/product/container-vulnerability-management/"><span class="has-inline-color has-luminous-vivid-amber-color">Snyk Security Scan for Container Images</span></a>. This is a service provided by <a href="https://snyk.io/"><span class="has-inline-color has-luminous-vivid-amber-color">Snyk</span></a> which offers a free tier, permitting up to 100 container tests per month for an unlimited number of developers. The service requires creation of a Snyk account, which the Azure platform connects to using an API token through a service connection which configured within the Azure pipeline project.</p>
+
+
+
+<p>When executed, the security scan examines the docker image and its dependencies for known vulnerable components.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/09/az-pl-yaml-sca.jpg"><img loading="lazy" decoding="async" width="614" height="295" src="./../../../wp-content/uploads/2021/09/az-pl-yaml-sca.jpg" alt="" class="wp-image-600" srcset="./../../../wp-content/uploads/2021/09/az-pl-yaml-sca.jpg 614w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sca-300x144.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-sca-210x101.jpg 210w" sizes="(max-width: 614px) 100vw, 614px" /></a><figcaption> <em>Build pipeline YAML fragment &#8211; perform SCA scan</em></figcaption></figure></div>
+
+
+<h4 class="wp-block-heading" id="container-registry">Container Registry</h4>
+
+
+<p>Once the security scans have been completed, the application docker container is pushed to the <a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal"><span class="has-inline-color has-luminous-vivid-amber-color">Azure Container Registry</span></a>:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/09/az-pl-yaml-push2cr.jpg"><img loading="lazy" decoding="async" width="601" height="328" src="./../../../wp-content/uploads/2021/09/az-pl-yaml-push2cr.jpg" alt="" class="wp-image-599" srcset="./../../../wp-content/uploads/2021/09/az-pl-yaml-push2cr.jpg 601w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-push2cr-300x164.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-yaml-push2cr-210x115.jpg 210w" sizes="(max-width: 601px) 100vw, 601px" /></a><figcaption><em>Build pipeline YAML fragment &#8211; push container to registry</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-cr-002.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-cr-002-768x419.jpg" alt="" class="wp-image-570" width="576" height="314" srcset="./../../../wp-content/uploads/2021/09/az-pl-cr-002-768x419.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-cr-002-300x164.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-cr-002-1024x559.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-cr-002-210x115.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-cr-002.jpg 1111w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Confirming a successful container push via the Azure Container Registry web portal</em></figcaption></figure></div>
+
+
+<h4 class="wp-block-heading" id="release-pipeline">Release Pipeline</h4>
+
+
+<p>Here I&#8217;ve tried out visual generation the YAML file &#8211; the end result is the same, but the process is a little more intuitive as compared to building up the YAML file manually, especially when multiple sequential stages with their own tasks are involved.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-003.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-003-768x383.jpg" alt="" class="wp-image-581" width="576" height="287" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-003-768x383.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-003-300x150.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-003-1024x511.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-release-003-210x105.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-003.jpg 1226w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Building up the release pipeline using the visual interface</em></figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="triggering-a-release">Triggering a release</h5>
+
+
+<p>With a real system, it&#8217;s likely that there would be multiple development, test, QA, and live deployment environments, probably under the control of a release manager, depending on the size and maturity of the team. As already mentioned, this exercise uses a single live environment, and in an attempt to simulate a typical QA/sign-off scenario, I&#8217;ve chosen to trigger creation of release for deployment manually, rather than automating it. </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-005.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-005.jpg" alt="" class="wp-image-579" width="242" height="118" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-005.jpg 322w, ./../../../wp-content/uploads/2021/09/az-pl-release-005-300x146.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-005-210x102.jpg 210w" sizes="(max-width: 242px) 100vw, 242px" /></a></figure></div>
+
+
+
+<p>Triggering a release initiates the release pipeline &#8211; the stages and tasks within the pipeline are outlined below:</p>
+
+
+<h5 class="wp-block-heading" id="dynamic-application-security-testing-dast">Dynamic Application Security Testing (DAST)</h5>
+
+
+<p>The purpose of Dynamic application security testing is to identify types of vulnerabilities in web applications that can only be found while the application is actually running. It is a type of black box test<a href="https://www.veracode.com/security/black-box-analysis">&nbsp;</a>because it is performed without knowledge of the internal source code or application architecture. DAST scanning can identify issues such as input/output validation weaknesses, configuration errors, susceptibility to injection attacks, etc.</p>
+
+
+
+<p>In this example, I&#8217;ve chosen to use the <a href="https://www.zaproxy.org/docs/docker/api-scan/"><span class="has-inline-color has-luminous-vivid-amber-color">Zed Attack Proxy (ZAP) API Scan</span></a>, an open source utility developed by <a href="https://owasp.org/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP</span></a>. This variant of ZAP is specifically tuned to scan applications which present their services via an API, so security issues such as cross site scripting which are generally more applicable to applications with a web UI are not considered.</p>
+
+
+
+<p>The scanner is provided as a docker container, so the pipeline includes tasks which handle the creation and deletion of a dedicated Azure container to house the scanner on the fly. Additional support tasks convert the output from the scanner into a format that the Azure platform can parse for display.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-002.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-002-768x380.jpg" alt="" class="wp-image-582" width="576" height="285" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-002-768x380.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-002-300x149.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-002-1024x507.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-release-002-1536x761.jpg 1536w, ./../../../wp-content/uploads/2021/09/az-pl-release-002-210x104.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-002.jpg 1690w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Release pipeline DAST testing tasks &#8211; OWASP ZAP API Scanner</em></figcaption></figure></div>
+
+
+
+<p>Although the visual builder has been used to construct this part of the pipeline, its trivial matter to inspect the YAML script if required, should any fine-tuning or debugging be required:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-004.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-004-768x504.jpg" alt="" class="wp-image-580" width="576" height="378" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-004-768x504.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-004-300x197.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-004-1024x672.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-release-004-210x138.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-004.jpg 1263w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption> <em>Release pipeline DAST testing tasks &#8211; underlying YAML file</em> </figcaption></figure></div>
+
+
+<h5 class="wp-block-heading" id="deployment">Deployment</h5>
+
+
+<p>The final stage of the pipeline causes the application to be pushed to an <a href="https://azure.microsoft.com/en-gb/services/container-instances/#overview"><span class="has-inline-color has-luminous-vivid-amber-color">Azure container instance</span></a>, assigned an IP address and executed so that the API is publicly accessible via the internet (Azure&#8217;s <a href="https://docs.microsoft.com/en-us/azure/dns/dns-overview"><span class="has-inline-color has-luminous-vivid-amber-color">DNS</span></a> ensures that a fixed domain name can be used, despite the IP address being allocated dynamically).</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-011.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-011-768x375.jpg" alt="" class="wp-image-607" width="576" height="281" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-011-768x375.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-011-300x147.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-011-1024x501.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-release-011-210x103.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-011.jpg 1391w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Release pipeline YAML fragment &#8211; deploy to Azure container instance</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-ci-running.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-ci-running-768x519.png" alt="" class="wp-image-648" width="576" height="389" srcset="./../../../wp-content/uploads/2021/09/az-ci-running-768x519.png 768w, ./../../../wp-content/uploads/2021/09/az-ci-running-300x203.png 300w, ./../../../wp-content/uploads/2021/09/az-ci-running-1024x692.png 1024w, ./../../../wp-content/uploads/2021/09/az-ci-running-1536x1038.png 1536w, ./../../../wp-content/uploads/2021/09/az-ci-running-210x142.png 210w, ./../../../wp-content/uploads/2021/09/az-ci-running.png 1566w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Container deployed and running</em></figcaption></figure></div>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+<h2 class="wp-block-heading" id="happy-path-testing">Happy Path Testing</h2>
+
+<h3 class="wp-block-heading" id="unit-test-results">Unit Test Results</h3>
+
+
+<p>Unit test results are accessible from the web dashboard:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001-768x498.jpg" alt="" class="wp-image-585" width="576" height="374" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001-768x498.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001-300x195.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001-1024x664.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001-210x136.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-unittest-001.jpg 1145w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Results from the suite of JUnit test suite executed during the build process</em></figcaption></figure></div>
+
+
+<h3 class="wp-block-heading" id="sast-security-testing-results">SAST Security Testing Results</h3>
+
+
+<p>The ShiftLeft SAST scan generates a comprehensive set of test results grouped by vulnerability severity, which can be viewed via a dedicated page on the web portal. Vulnerabilities are tagged with a link to the specific line(s) of source code identified as the root cause.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-768x402.jpg" alt="" class="wp-image-583" width="576" height="302" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-768x402.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-300x157.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-1024x536.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-1536x804.jpg 1536w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001-210x110.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-001.jpg 1616w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+<h3 class="wp-block-heading" id="sca-security-testing-results">SCA Security Testing Results</h3>
+
+
+<p>Similar to the SAST scan, the Snyk container SCA scan also generates a comprehensive set of test results grouped by vulnerability severity, which can be viewed via a dedicated page on the web portal.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001-768x520.jpg" alt="" class="wp-image-584" width="576" height="390" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001-768x520.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001-300x203.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001-1024x694.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001-210x142.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-sca-001-001.jpg 1268w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+
+<p>Each report entry describes what the vulnerable component is, what the dependency path is and provides references to published details about the vulnerability itself: </p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/sca-001.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/sca-001.png" alt="" class="wp-image-652" width="573" height="187" srcset="./../../../wp-content/uploads/2021/09/sca-001.png 695w, ./../../../wp-content/uploads/2021/09/sca-001-300x98.png 300w, ./../../../wp-content/uploads/2021/09/sca-001-210x69.png 210w" sizes="(max-width: 573px) 100vw, 573px" /></a></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/sca-002.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/sca-002-768x585.png" alt="" class="wp-image-653" width="576" height="439" srcset="./../../../wp-content/uploads/2021/09/sca-002-768x585.png 768w, ./../../../wp-content/uploads/2021/09/sca-002-300x229.png 300w, ./../../../wp-content/uploads/2021/09/sca-002-210x160.png 210w, ./../../../wp-content/uploads/2021/09/sca-002.png 799w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+<h3 class="wp-block-heading" id="dast-security-testing-results">DAST Security Testing Results</h3>
+
+
+<p>The results from the ZAP API DAST scanner are converted into a form that can be displayed in a similar manner to unit tests:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-006.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-006-768x491.jpg" alt="" class="wp-image-578" width="576" height="368" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-006-768x491.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-006-300x192.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-006-210x134.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-006.jpg 884w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>ZAP API Scan DAST Testing results</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-007.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-007-768x523.jpg" alt="" class="wp-image-577" width="576" height="392" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-007-768x523.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-007-300x204.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-007-210x143.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-007.jpg 866w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption> <em>ZAP API Scan DAST Testing results</em></figcaption></figure></div>
+
+
+
+<p>The results contain observations which relate to the fact that, in its current state, the target application does actually return an HTML error page with an HTTP 500 response code if it receives a request which is incorrectly formatted, or can&#8217;t be mapped to a method. Strictly speaking, an API wouldn&#8217;t do this, but rather than fix this behaviour, I&#8217;ve left it as-is and just treated the results as a baseline to compare subsequent results against.</p>
+
+
+<h3 class="wp-block-heading" id="live-api-testing">Live API Testing</h3>
+
+
+<p>Now that the application is running, live functional testing can begin. Because testing against the API will involve having relatively fine control over the structure of the HTTP requests, I&#8217;ve chosen to interact with it using an interception proxy (<a href="https://portswigger.net/burp/communitydownload"><span class="has-inline-color has-luminous-vivid-amber-color">Portswigger Burp Suite &#8211; Community Edition</span></a>) rather than a web browser or a command line tool such as Curl. Burp Suite provides the ability to capture, modify and send requests with full control over the request type, header values, body content etc.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-005.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-005-768x677.png" alt="" class="wp-image-630" width="576" height="508" srcset="./../../../wp-content/uploads/2021/09/apiburp-005-768x677.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-005-300x265.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-005-210x185.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-005.png 814w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption> <em>Live API functional testing &#8211; query by ID</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-004.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-004-768x678.png" alt="" class="wp-image-629" width="576" height="509" srcset="./../../../wp-content/uploads/2021/09/apiburp-004-768x678.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-004-300x265.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-004-210x185.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-004.png 852w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Live API functional testing &#8211; query by username</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-002.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-002-768x702.png" alt="" class="wp-image-622" width="576" height="527" srcset="./../../../wp-content/uploads/2021/09/apiburp-002-768x702.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-002-300x274.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-002-210x192.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-002.png 837w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption> <em>Live API functional testing &#8211; update by ID PUT request</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-009.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-009-768x652.png" alt="" class="wp-image-659" width="576" height="489" srcset="./../../../wp-content/uploads/2021/09/apiburp-009-768x652.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-009-300x255.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-009-210x178.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-009.png 864w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption> <em>Live API functional testing &#8211; query by ID after update</em> </figcaption></figure></div>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+<h2 class="wp-block-heading" id="introducing-an-sql-injection-vulnerability">Introducing an SQL Injection Vulnerability</h2>
+
+
+<p>Let&#8217;s now deliberately introduce an <a href="https://owasp.org/www-community/attacks/SQL_Injection"><span class="has-inline-color has-luminous-vivid-amber-color">SQL injection vulnerability</span></a> into the application software, to assess the sensitivity and effectiveness of the pipeline SAST and DAST security controls.</p>
+
+
+
+<p>I&#8217;ve inserted an additional API method <code><em><span class="has-inline-color has-white-color">findByRole</span></em></code> which allows the details for a User to be queried by supplying a role type as search parameter.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-014.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-014.png" alt="" class="wp-image-625" width="572" height="119" srcset="./../../../wp-content/uploads/2021/09/vulnweb-014.png 572w, ./../../../wp-content/uploads/2021/09/vulnweb-014-300x62.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-014-210x44.png 210w" sizes="(max-width: 572px) 100vw, 572px" /></a></figure></div>
+
+
+
+<p>Instead of using Spring&#8217;s object relational mapping to handle the database query for us, I&#8217;ve hand crafted an SQL statement using input parsed from the HTTP request. The raw <code><em><span class="has-inline-color has-white-color">userRole</span></em></code> parameter value is included in the statement without performing any data sanitisation.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/vulnweb-010-1.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/vulnweb-010-1-768x415.png" alt="" class="wp-image-624" width="576" height="311" srcset="./../../../wp-content/uploads/2021/09/vulnweb-010-1-768x415.png 768w, ./../../../wp-content/uploads/2021/09/vulnweb-010-1-300x162.png 300w, ./../../../wp-content/uploads/2021/09/vulnweb-010-1-1024x554.png 1024w, ./../../../wp-content/uploads/2021/09/vulnweb-010-1-210x114.png 210w, ./../../../wp-content/uploads/2021/09/vulnweb-010-1.png 1080w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+<h2 class="wp-block-heading" id="retesting">Re-Testing</h2>
+
+<h3 class="wp-block-heading" id="updated-live-api-testing-results">Updated &#8211; Live API Testing Results </h3>
+
+
+<p>First we test the new API endpoint to verify that it returns expected results when called under normal circumstances:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-006.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-006-768x718.png" alt="" class="wp-image-631" width="576" height="539" srcset="./../../../wp-content/uploads/2021/09/apiburp-006-768x718.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-006-300x281.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-006-210x196.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-006.png 806w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>Testing the new API method</em></figcaption></figure></div>
+
+
+
+<p>As a result of the dangerous coding practices used to implement the new API method, the application code is now vulnerable to SQL injection. A suitably crafted input parameter value can be used to &#8220;break out&#8221; of the string object used internally to hold the SQL statement query clause, causing the supplied value to be interpreted as an SQL command rather than a condition.</p>
+
+
+
+<p>For example, the following parameter value &#8211; shown in URL encoded and decoded form using Burp Suite&#8217;s Decoder view &#8211; uses single quote characters to cause the SQL statement construction code to build a query which should cause <strong><em>all</em></strong> entries to be returned from the database, despite the request containing a non-existent <code><em><span class="has-inline-color has-white-color">userRole</span></em></code> search term:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-008.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-008.png" alt="" class="wp-image-632" width="551" height="307" srcset="./../../../wp-content/uploads/2021/09/apiburp-008.png 735w, ./../../../wp-content/uploads/2021/09/apiburp-008-300x167.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-008-210x117.png 210w" sizes="(max-width: 551px) 100vw, 551px" /></a></figure></div>
+
+
+
+<p>&#8230;the vulnerable source code fails to filter out the single quote character and as a result, the DBMS treats the string value after it as a real &#8220;OR&#8221; condition, ignores the <em><code><span class="has-inline-color has-white-color">role</span></code></em> search term of &#8216;DOESNOTEXIST&#8217; and returns all entries where &#8216;1&#8217;=&#8217;1&#8242;, i.e. every entry in the database:</p>
+
+
+
+<pre class="wp-block-code"><code>SELECT a.id as id, a.username as username, a.role as role, a.password as password FROM User a WHERE role = 'DOESNOTEXIST<span class="has-inline-color has-luminous-vivid-amber-color">'</span><span class="has-inline-color has-vivid-red-color"> OR '1' = '1' --</span></code></pre>
+
+
+
+<p>If we modifying the request within the interception proxy by inserting the above payload and resending it to the application, we get the following result:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/apiburp-007.png"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/apiburp-007-768x665.png" alt="" class="wp-image-633" width="576" height="499" srcset="./../../../wp-content/uploads/2021/09/apiburp-007-768x665.png 768w, ./../../../wp-content/uploads/2021/09/apiburp-007-300x260.png 300w, ./../../../wp-content/uploads/2021/09/apiburp-007-210x182.png 210w, ./../../../wp-content/uploads/2021/09/apiburp-007.png 903w" sizes="(max-width: 576px) 100vw, 576px" /></a><figcaption><em>SQL Injection being used to dump all data from the database</em></figcaption></figure></div>
+
+
+<h3 class="wp-block-heading" id="updated-sast-security-testing-results">Updated &#8211; SAST Security Testing Results</h3>
+
+
+<p>The code change responsible for introducing the SQLi vulnerability triggered the build pipeline, and so a re-run of the SAST security testing was performed.</p>
+
+
+
+<p>We can see from the new results that the SQL injection vulnerability was detected by ShiftLeft&#8217;s SAST-Scan and classified with a HIGH severity rating. The offending lines of code are identified within the report item, together with links to the relevant Java source file, and an explanation of what the vulnerability is and why it is considered to be a weakness.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-768x386.jpg" alt="" class="wp-image-573" width="576" height="290" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-768x386.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-300x151.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-1024x515.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-1536x772.jpg 1536w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002-210x106.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-002.jpg 1625w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003.jpg" alt="" class="wp-image-572" width="587" height="475" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003.jpg 783w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003-300x243.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003-768x621.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-003-210x170.jpg 210w" sizes="(max-width: 587px) 100vw, 587px" /></a></figure></div>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004.jpg" alt="" class="wp-image-571" width="587" height="410" srcset="./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004.jpg 782w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004-300x209.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004-768x536.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-build-sast-001-004-210x147.jpg 210w" sizes="(max-width: 587px) 100vw, 587px" /></a></figure></div>
+
+
+<h3 class="wp-block-heading" id="updated-dast-security-testing-results">Updated &#8211; DAST Security Testing Results </h3>
+
+
+<p>The SQLI vulnerability I introduced is not particularly subtle &#8211; any SAST scanner should easily be able to detect an error of this nature. However, the same type of vulnerability could have been introduced using code with a more complex execution path, which might have made the flaw more difficult to detect using static analysis methods.</p>
+
+
+
+<p>To simulate a scenario where the SQLi vulnerability has been missed by the SAST scan for some reason, I triggered a new release causing the DAST security scan to run and examined the results.</p>
+
+
+
+<p>As the following illustration shows, the number of vulnerabilities detected by the ZAP API scanner increased from the baseline of 2, to 5:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-008.jpg"><img loading="lazy" decoding="async" width="300" height="232" src="./../../../wp-content/uploads/2021/09/az-pl-release-008.jpg" alt="" class="wp-image-576" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-008.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-008-210x162.jpg 210w" sizes="(max-width: 300px) 100vw, 300px" /></a></figure></div>
+
+
+
+<p>We can see that the DAST scan has successfully detected the SQL Injection vulnerability through active testing of the API:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-009.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-009-768x617.jpg" alt="" class="wp-image-575" width="576" height="463" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-009-768x617.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-009-300x241.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-009-210x169.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-009.jpg 867w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+
+<p>&#8230; the test report entry provides the details of the HTTP request that was used by ZAP to elicit a response which proved SQL injection was possible, as well as description of the vulnerability and general advice for developers tasked with engineering a fix, and for avoiding introducing this type of vulnerability in future:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../../../wp-content/uploads/2021/09/az-pl-release-010.jpg"><img loading="lazy" decoding="async" src="./../../../wp-content/uploads/2021/09/az-pl-release-010-768x523.jpg" alt="" class="wp-image-574" width="576" height="392" srcset="./../../../wp-content/uploads/2021/09/az-pl-release-010-768x523.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-release-010-300x204.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-release-010-1024x698.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-release-010-210x143.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-release-010.jpg 1126w" sizes="(max-width: 576px) 100vw, 576px" /></a></figure></div>
+
+
+<h2 class="wp-block-heading" id="conclusions">Conclusions</h2>
+
+
+<p>Returning to the assessment criteria identified in the objectives at the start of this post, which outlines queries and concerns that might justifiably be expressed by stakeholders when considering a shift to a cloud-native DevSecOps approach, as a means of achieving greater focus on application security, earlier in the development lifecycle: </p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Bottleneck:</span> Will it slow the development process process down ?</strong><br>The automated, continuous and parallel nature of the security testing carried out within the pipeline should help to streamline the development process. Feedback on the discovery of security vulnerabilities is provided soon after introduction, rather than days, weeks or even months later perhaps when the product is much closer to release and when the development team has perhaps begun to disperse to other projects. Near-immediate security issue feedback means remediation can potentially take place within a single sprint iteration, rather than later in the project when the additional disruption is much more likely to introduce significant project delays.</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Feedback:</span> will it allow developers to find out about security issues soon after they&#8217;ve been introduced, when remediation is comparatively easier and cheaper ?</strong></p>
+
+
+
+<p>The automated, continuous nature of the security testing carried out within the pipeline whenever code changes are committed to the source repository means that security issues can be flagged up to the originating developer very quickly after its introduction. Although the pipeline constructed for this exercise is relatively simple, the architecture can easily be extended to integrate with messaging and ticket management systems, to ensure that vulnerability alerts are channelled to the correct audience and maintained throughout the remediation lifecycle.</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Constructive:</span> will it provide information that can be understood by a development audience so it can be acted upon ?</strong></p>
+
+
+
+<p>The information presented in the &#8220;Test Results&#8221; sections above demonstrate clearly that each of the security testing stages generate vulnerability reports containing entries which are informative and relevant. Crucially, each entry is supported by root cause indicators and actionable remediation advice, which helps developers who might not be familiar with software application vulnerability concepts understand why the vulnerability exists and what needs to be done to address it. </p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Overhead:</span> how much additional workload will it cause for the development team ?</strong></p>
+
+
+
+<p>Arguably, the immediacy of the feedback provided by implementing continuous, automated security testing early in the development process should mean that the workload on developers is reduced in magnitude. Security issues are communicated back the originator much sooner, meaning that developers can tackle remediation when the relevant implementation details are still fresh in their minds, rather than having to recall the details at a later date &#8211; a process which inevitably takes longer and is likely to be more error prone.</p>
+
+
+
+<p>None of the free/open source variants of security testing tools selected for this exercise proved to be invasive, or required any additional dependencies or modifications to be added to the application source code to support security testing. </p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Scalable:</span> how easy is to change, adapt, grow / shrink ?</strong></p>
+
+
+
+<p>Personally, I found the Azure platform is well documented and highly intuitive to use. The modular nature of the YAML-based pipeline job and task definitions make the business of adding and removing functionality trivial and clear error logs simplify the troubleshooting process during pipeline development. Being script-based means that the infrastructure which defines the pipeline architecture can be snapshotted and tagged in the same way as any other software artefact . For this reason, it&#8217;s is easy to envisage how an organisation could adapt pipelines to suit their particular business requirements as needed.</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Experimentation:</span> learning leads to innovation: developers are problem solvers &#8211; does it give developers the freedom try out different ways to fix security bugs, quickly, in an isolated environment without fear of breaking the release process, learning from mistakes without fear of retribution ?</strong></p>
+
+
+
+<p>The highly configurable and scalable nature of the platform allows experimental, ad-hoc pipelines and deployment environments to be stood up and later decommissioned quickly and without affecting the  main development stream. This would also be the case with a conventional, on-premise pipeline with e.g. a &#8220;Git Flow&#8221;  style feature/hotfix/release branching strategy, but the point here is the ease with which pre-canned Azure tasks can be included, tested and removed &#8211; a feature which eliminates much of the time, effort and risk from &#8220;what if?&#8221; experimentation.</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Costs:</span> What are the initial costs ? What does the ongoing spend profile looks like &#8211; is it easy to quantify and predict ?</strong></p>
+
+
+
+<p>Although absolute initial and ongoing costs will obviously depend on factors such as the size of the development team, the size and complexity of the software applications, number of active projects, frequency of deployments etc, the automated cost metrics provided as standard by the Azure platform make it very easy to determine what the current accumulated costs are and what the  predicted spend profile looks like over time. Breakdowns by resource help to identify exactly which of the utilised services are costing the most, and historical data allows the root cause of spikes in costs to be analysed, helping to identify and tune out inefficiencies in the pipeline.</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="./../../../wp-content/uploads/2021/09/az-pl-costs.jpg"><img loading="lazy" decoding="async" width="1024" height="459" src="./../../../wp-content/uploads/2021/09/az-pl-costs-1024x459.jpg" alt="" class="wp-image-568" srcset="./../../../wp-content/uploads/2021/09/az-pl-costs-1024x459.jpg 1024w, ./../../../wp-content/uploads/2021/09/az-pl-costs-300x134.jpg 300w, ./../../../wp-content/uploads/2021/09/az-pl-costs-768x344.jpg 768w, ./../../../wp-content/uploads/2021/09/az-pl-costs-1536x688.jpg 1536w, ./../../../wp-content/uploads/2021/09/az-pl-costs-210x94.jpg 210w, ./../../../wp-content/uploads/2021/09/az-pl-costs.jpg 1898w" sizes="(max-width: 980px) 100vw, 980px" /></a><figcaption><em>Azure platform cost management dashboard</em></figcaption></figure>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">Metrics:</span> how easy is it to assess and report on the level of business risk exposure from the results generated from security testing in the pipeline ?</strong></p>
+
+
+
+<p>The test results generated by the SAST, SCA and DAST pipeline stages are sufficiently detailed to provide vulnerability data input into threat modelling activities. Assuming the organisation has good understanding of the relative value its information assets, the nature and disposition of the trust boundaries that exist between them and the potential threats they may face, then the overall risk to the organisation&#8217;s business risk can be calculated using the preferred risk assessment technique. Continuous security testing means vulnerability data is kept up to date, so stakeholders can be confident that the calculated level of risk is accurate. Risk assessment data can then also be used prioritise vulnerability remediation activity, ensuring that the effort is being expended in the most effective manner.</p>
+
+
+
+<p><strong><span class="has-inline-color has-white-color">ROI:</span> How can the organisation&#8217;s return on investment be measured using the results generated ?</strong></p>
+
+
+
+<p>Probably the most immediate and comprehendible means of assessing the success of adopting a DevSecOps approach is by comparing the results of &#8220;before&#8221; and &#8220;after&#8221; penetration tests. There should be a measurable decrease in the number of vulnerabilities discovered late in the development process, with a corresponding increase in security issues being detected earlier in the lifecycle. If the team has an efficient time tracking process in place, it should be relatively straightforward to compute the reduction in the overall cost of remediation over time.</p>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+
+<p></p>
+]]></content:encoded>
+					
+		
+		
+			</item>
+	</channel>
+</rss>

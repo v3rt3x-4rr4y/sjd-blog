@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Ethernet &#8211; Spencer Drayton</title>
+	<atom:link href="./index.html" rel="self" type="application/rss+xml" />
+	<link>./../../../index.html</link>
+	<description>Information Security, Software Engineering</description>
+	<lastBuildDate>Sat, 18 Sep 2021 17:11:38 +0000</lastBuildDate>
+	<language>en-GB</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	
+	<item>
+		<title>Throwing Star LAN Tap</title>
+		<link>./../../../throwing-star-lan-tap/index.html</link>
+		
+		<dc:creator><![CDATA[spen440]]></dc:creator>
+		<pubDate>Wed, 02 Aug 2017 17:50:05 +0000</pubDate>
+				<category><![CDATA[Network Reconnaissance]]></category>
+		<category><![CDATA[Ethernet]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Packet Capture]]></category>
+		<category><![CDATA[Wireshark]]></category>
+		<guid isPermaLink="false">./../../../index.html?p=209</guid>
+
+					<description><![CDATA[Just recently I decided to add a passive LAN tap to my toolkit, partly because I needed a quick, easy and non-intrusive way of being able to monitor network traffic, and partly to justify buying a new soldering iron. The kit was manufactured by Great Scott Gadgets to Michael Ossman&#8217;s original design and supplied by RoboSavvy. [&#8230;]]]></description>
+										<content:encoded><![CDATA[<h2></h2>
+<p>Just recently I decided to add a passive LAN tap to my toolkit, partly because I needed a quick, easy and non-intrusive way of being able to monitor network traffic, and partly to justify buying a new soldering iron.</p>
+<p><span id="more-209"></span></p>
+<p>The kit was manufactured by <a href="https://greatscottgadgets.com/">Great Scott Gadgets</a> to <a href="http://ossmann.blogspot.co.uk/2011/02/throwing-star-lan-tap.html">Michael Ossman&#8217;s</a> original design and supplied by <a href="https://robosavvy.com/web/">RoboSavvy</a>. It&#8217;s been a while since I tackled anything involving a PCB and molten metal, but the lack of dry and/or bridged joints must mean I haven&#8217;t completely lost the ability to solder just yet.</p>
+<figure id="attachment_212" aria-describedby="caption-attachment-212" style="width: 376px" class="wp-caption aligncenter"><a href="./../../../wp-content/uploads/2017/08/t-star-lan-tap.jpeg"><img fetchpriority="high" decoding="async" class="wp-image-212" src="./../../../wp-content/uploads/2017/08/t-star-lan-tap-300x232.jpeg" alt="" width="376" height="291" data-wp-pid="212" srcset="./../../../wp-content/uploads/2017/08/t-star-lan-tap-300x232.jpeg 300w, ./../../../wp-content/uploads/2017/08/t-star-lan-tap-210x163.jpeg 210w, ./../../../wp-content/uploads/2017/08/t-star-lan-tap.jpeg 431w" sizes="(max-width: 376px) 100vw, 376px" /></a><figcaption id="caption-attachment-212" class="wp-caption-text">Kit contents</figcaption></figure>
+<figure id="attachment_26" aria-describedby="caption-attachment-26" style="width: 376px" class="wp-caption aligncenter"><a href="./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427.jpg"><img decoding="async" class="wp-image-26" src="./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427-240x300.jpg" alt="" width="376" height="470" data-wp-pid="26" srcset="./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427-240x300.jpg 240w, ./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427-820x1024.jpg 820w, ./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427-768x959.jpg 768w, ./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427-168x210.jpg 168w, ./../../../wp-content/uploads/2017/05/WP_20170518_17_46_44_Pro-e1495127160427.jpg 841w" sizes="(max-width: 376px) 100vw, 376px" /></a><figcaption id="caption-attachment-26" class="wp-caption-text">Fully assembled</figcaption></figure>
+<p>There are four RJ-45 ports &#8211; two for connecting in-line on the Ethernet network to be monitored, and two monitoring ports. As an unpowered tap, it doesn&#8217;t have the ability to cope with full duplex Gigabit Ethernet, so only two of transmit/receive pairs are broken out to monitor ports. This also means that the monitoring ports are unidirectional; to sniff traffic in both directions at the same time you&#8217;d need to connect both monitoring ports, for example using a dual port NIC.</p>
+<p>The on board capacitors are there to act as low-pass filters, forcing the network devices at either end of the network segment being monitored to fall back to 100BASE-T, allowing Gigabit traffic 1000BASE-T to at least be monitored, albeit over a link downgraded to Fast Ethernet (of course, if you only ever want to sniff 100BASE-T traffic, none of that matters anyway).</p>
+<p>As a quick test just to prove things work as expected, I inserted the tap between my Mac and a switch on my home network, then kicked off an aggressive Nmap scan against my wife&#8217;s poor unsuspecting Roberts &#8220;smart&#8221; radio. Running Wireshark on a laptop connected to the upstream monitoring port, we can see the scan activity being directed at the target device; the capture in the screenshot shows an attempt by Nmap to locate signs of unprotected Git repositories at the root of the web admin interface, by using the http-gti.nse script as part of the aggressive scan:</p>
+<p><a href="./../../../wp-content/uploads/2017/08/WP_20170801_17_20_39_Rich_LI-2.png"><img decoding="async" class=" wp-image-278 aligncenter" src="./../../../wp-content/uploads/2017/08/WP_20170801_17_20_39_Rich_LI-2-169x300.png" alt="" width="231" height="410" srcset="./../../../wp-content/uploads/2017/08/WP_20170801_17_20_39_Rich_LI-2-169x300.png 169w, ./../../../wp-content/uploads/2017/08/WP_20170801_17_20_39_Rich_LI-2-118x210.png 118w, ./../../../wp-content/uploads/2017/08/WP_20170801_17_20_39_Rich_LI-2.png 577w" sizes="(max-width: 231px) 100vw, 231px" /></a></p>
+<figure id="attachment_215" aria-describedby="caption-attachment-215" style="width: 660px" class="wp-caption aligncenter"><a href="./../../../wp-content/uploads/2017/08/lan-tap-nmap.png"><img loading="lazy" decoding="async" class="wp-image-215" src="./../../../wp-content/uploads/2017/08/lan-tap-nmap-300x150.png" alt="" width="660" height="330" data-wp-pid="215" srcset="./../../../wp-content/uploads/2017/08/lan-tap-nmap-300x150.png 300w, ./../../../wp-content/uploads/2017/08/lan-tap-nmap-768x384.png 768w, ./../../../wp-content/uploads/2017/08/lan-tap-nmap-210x105.png 210w, ./../../../wp-content/uploads/2017/08/lan-tap-nmap.png 818w" sizes="(max-width: 660px) 100vw, 660px" /></a><figcaption id="caption-attachment-215" class="wp-caption-text">Nmap scan</figcaption></figure>
+<figure id="attachment_206" aria-describedby="caption-attachment-206" style="width: 661px" class="wp-caption aligncenter"><a href="./../../../wp-content/uploads/2017/08/lan-tap-cap.png"><img loading="lazy" decoding="async" class="wp-image-206" src="./../../../wp-content/uploads/2017/08/lan-tap-cap-300x169.png" alt="" width="661" height="372" data-wp-pid="206" srcset="./../../../wp-content/uploads/2017/08/lan-tap-cap-300x169.png 300w, ./../../../wp-content/uploads/2017/08/lan-tap-cap-1024x576.png 1024w, ./../../../wp-content/uploads/2017/08/lan-tap-cap-768x432.png 768w, ./../../../wp-content/uploads/2017/08/lan-tap-cap-210x118.png 210w, ./../../../wp-content/uploads/2017/08/lan-tap-cap.png 1366w" sizes="(max-width: 661px) 100vw, 661px" /></a><figcaption id="caption-attachment-206" class="wp-caption-text">Packet analysis with Wireshark</figcaption></figure>
+<p>Given that it&#8217;s highly portable, easy to use and invisible to network scans, I suspect this little gadget will be getting plenty of use in the field in the near future.</p>
+]]></content:encoded>
+					
+		
+		
+			</item>
+	</channel>
+</rss>
